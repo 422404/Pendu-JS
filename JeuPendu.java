@@ -33,7 +33,7 @@ public class JeuPendu {
         System.out.println("Jeu du pendu !\n");
         
         do {
-            lancerPartie();
+            lancerPartie(FACILE);
         } while(rejouer());
         
         System.out.println("fin du jeu");
@@ -45,7 +45,7 @@ public class JeuPendu {
      * Lance une nouvelle partie
      * @param difficultee Difficultee de la partie choisie
      */
-    private static void lancerPartie(FACILE) {
+    private static void lancerPartie(int difficultee) {
         System.out.println("hello");
         partieGagnee(1000);
         // TODO finir le corps
