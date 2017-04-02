@@ -1,3 +1,2 @@
 ## Pendu en Javascript
-=== 
 Le prototype du pendu est pour l'instant en java...
