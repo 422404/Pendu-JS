@@ -76,17 +76,17 @@ function lireLettre() {
       && regex.test(lettre)) {
     
     var lettresRevelees = verifierLettre(tableauMot, lettre);
-	if (lettresRevelees != 0) {
+    if (lettresRevelees != 0) {
       score += lettresRevelees * 100;
       if (motValide(tableauMot)) {
         // partie gagnée
-		finPartie(true);
+        finPartie(true);
       }
     } else {
       erreurs++;
       if (erreurs >= 10) {
         // partie perdue
-		finPartie(false);
+        finPartie(false);
       }
     }
   }
