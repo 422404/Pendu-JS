@@ -1,5 +1,6 @@
 function init() {
   // initialisations une fois que la page est chargée
+  // TODO modifier
   tableauMot = mot2tab("helloworld", 0, 2, 4, 5, 8);
   erreurs = 0;
   score = 0;
