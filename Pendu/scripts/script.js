@@ -1,25 +1,39 @@
-function init() {
-  // initialisations une fois que la page est chargÈe
-  // TODO modifier
-  tableauMot = mot2tab("helloworld", 0, 2, 4, 5, 8);
+Ôªøfunction init() {
+  // initialisations une fois qu'une partie est lanc√©e
+  // TODO tirage au sort de mots
+  tableauMot = motEnTableau("helloworld", 0, 2, 4, 5, 8);
   erreurs = 0;
   score = 0;
+  gagne = false;
   afficher("score :  0", "score");
   afficher("erreurs : 0", "erreurs");
   afficher("mot : " + mot2String(tableauMot, false), "mot");
+  document.getElementById('img_pendu').src = "images/empty.png";
+  document.getElementById('controlesJeux').style.visibility = 'visible';
+  document.getElementById('controlesAutres').style.visibility = 'hidden';
+  document.getElementById("confirmation").innerHTML = "CONFIRMER";
+  document.getElementById('lettre').focus();
+  document.getElementById("lettre").value = "";
 }
 
-
 /*
-Fait d'un mot un tableau ‡ deux dimensions structurÈ comme suit:
+Quand on appuie sur entrer gestion de l'evenement appuie sur entrer
+*/
+function entrer(e) {
+	if (e.keyCode == 13) {
+        lireLettre();
+	}
+}
+/*
+Fait d'un mot un tableau √† deux dimensions structur√© comme suit:
 tableau : { 
     motcomplet : {'m', 'o', 't"} ,
     motNoncomplet : {'_', 'o', '_'}
 }
 */
-function mot2tab(mot, ...indicesLettresCachees) {
+function motEnTableau(mot, ...indicesLettresCachees) {
   var tabMot = mot.split("");
-  var tab_o_ = mot2_o_(mot, indicesLettresCachees);
+  var tab_o_ = cacherMot(mot, indicesLettresCachees);
   var tabFinal = [tabMot, tab_o_];
     
   return tabFinal;
@@ -27,10 +41,10 @@ function mot2tab(mot, ...indicesLettresCachees) {
 
 
 /*
-Renvoie le mot passÈ en paramËtre avec des '_' aux indices spÈcifiÈs
-dans le tableau indices en paramËtres
+Renvoie le mot pass√© en param√®tre avec des '_' aux indices sp√©cifi√©s
+dans le tableau indices en param√®tres
 */
-function mot2_o_(mot, indices) {
+function cacherMot(mot, indices) {
   var tabMot = mot.split("");
   for (var indice = 0; indice < indices.length; indice++) {
       if (indices[indice] < tabMot.length) {
@@ -44,7 +58,7 @@ function mot2_o_(mot, indices) {
 
 /*
 Affiche un mot dans le format "m o t" (un espace entre chaque lettre)
-si le paramËtre complet === true alors le mot complet sera affichÈ
+si le param√®tre complet === true alors le mot complet sera affich√©
 sinon le mot avec les trous le sera
 */
 function mot2String(tabMot, complet) {
@@ -61,10 +75,10 @@ function mot2String(tabMot, complet) {
 
 /*
 Lit une lettre contenue dans un champs de texte et
-vÈrifie qu'elle fait partie de l'intervalle donnÈ : a-z (A-Z)
-si la lettre en fait partie alors il sera vÈrifiÈ qu'elle soit
+v√©rifie qu'elle fait partie de l'intervalle donn√© : a-z (A-Z)
+si la lettre en fait partie alors il sera v√©rifi√© qu'elle soit
 contenue dans le mot a chercher
-sinon un avertissement sera affichÈ
+sinon un avertissement sera affich√©
 */
 function lireLettre() {
   var lettre = document.getElementById("lettre").value;
@@ -73,35 +87,47 @@ function lireLettre() {
   // https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/RegExp
   var regex = /[a-zA-Z]{1}/g;
   
-  if (longueur === 1
-      && regex.test(lettre)) {
+  if (regex.test(lettre)) {
+    if (longueur == 1) {
+      var lettresRevelees = verifierLettre(tableauMot, lettre);
     
-    var lettresRevelees = verifierLettre(tableauMot, lettre);
-    if (lettresRevelees != 0) {
-      score += lettresRevelees * 100;
-      if (motValide(tableauMot)) {
-        // partie gagnÈe
-        finPartie(true);
+	  if (lettresRevelees != 0) {
+        score += lettresRevelees * 100;
+      } else {
+        erreurs++;
       }
-    } else {
-      erreurs++;
-      if (erreurs >= 10) {
-        // partie perdue
-        finPartie(false);
-      }
-    }
+	} else if (longueur > 1) {
+	  if (lettre == tableauMot[0].join("")) {
+		  gagne = true;
+	  } else {
+		  gagne = false;
+		  document.getElementById('img_pendu').src = "images/10.png";
+	  }
+	  finPartie();
+	}
   }
   
-  // on efface le contenu Ècrit prÈcÈdement
+  // on efface le contenu √©crit pr√©c√©dement
   document.getElementById("lettre").value = "";
   
-  // on affiche le score, le mot a completer ainsi que le nombre d'erreurs
-  afficherMotScoreErreurs(tableauMot, score, erreurs);
+  // on affiche le score, le mot a completer ainsi que le nombre d'erreurs et le gibet
+  afficherMotScoreErreursGibet(tableauMot, score, erreurs);
+  
+  if (erreurs >= 10) {
+      // partie perdue
+	  // time out car l'image n'a pas le temps de charger
+      setTimeout(finPartie, 500);
+  }
+  if (motValide(tableauMot)) {
+      // partie gagn√©e
+	  gagne = true;
+      finPartie();
+  }
 }
 
 
 /*
-affiche un texte donnÈ dans un element donnÈ par son id
+affiche un texte donn√© dans un element donn√© par son id
 */
 function afficher(texte, element = "texte") {
   document.getElementById(element).innerHTML = texte;
@@ -109,9 +135,9 @@ function afficher(texte, element = "texte") {
 
 
 /*
-vÈrifie qu'une lettre donnÈe soit contenue au moins une fois
-dans un mot donnÈ
-decouvre la lettre choisie du tableau de caracteres donnÈ
+v√©rifie qu'une lettre donn√©e soit contenue au moins une fois
+dans un mot donn√©
+decouvre la lettre choisie du tableau de caracteres donn√©
 renvoie true si la lettre etait au moins une fois dans mot
 sinon false
 */
@@ -133,7 +159,7 @@ function decouvrirLettre(tabMot, lettre) {
         
   for (var indice = 0; indice < tabMot[0].length; indice++) {
     // quand la lettre est presente dans le mot on 
-    // la place dans le mot cachÈ
+    // la place dans le mot cach√©
     if (tabMot[0][indice] == lettre
         && tabMot[1][indice] != lettre) {
         
@@ -149,10 +175,13 @@ function decouvrirLettre(tabMot, lettre) {
 /*
 affiche le score, le mot a completer ainsi que le nombre d'erreurs
 */
-function afficherMotScoreErreurs(tabMot, score, erreurs) {
+function afficherMotScoreErreursGibet(tabMot, score, erreurs) {
   afficher("mot : " + mot2String(tabMot, false), "mot");
   afficher("score : " + score, "score");
   afficher("erreurs : " + erreurs, "erreurs");
+  if (erreurs >= 1 && erreurs <= 10) {
+      document.getElementById('img_pendu').src = 'images/' + erreurs + ".png";
+  }
 }
 
 
@@ -174,10 +203,13 @@ function motValide(tabMot) {
 fini la partie
 le parametre doit etre a true si le joueur a gagne sinon false
 */
-function finPartie(aGagne) {
-  alert(aGagne ? "GG!" : "N00B!");
-  document.getElementById("confirmation").innerHTML = "rejouer";
+function finPartie() {
+  alert(gagne ? "F√©licitation! :D" : "Vous avez perdu!");
+  document.getElementById("confirmation").innerHTML = "REJOUER";
   document.getElementById("confirmation").onclick = function() {
-      window.location.reload();
+      init();
+	  document.getElementById("confirmation").onclick = function() {
+		  lireLettre();
+	  }
   };
 }

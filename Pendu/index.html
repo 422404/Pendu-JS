@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>	
+		<meta charset="utf-8">
+        <title>Pendu En Ligne</title>
+		<link href="styles/style.css" rel="stylesheet" type="text/css">
+		<script src="scripts/script.js"></script>
+    </head>
+	<body>
+		
+		<header>
+			<img src="images/logo.png" alt="photo de logo" id="img_logo"/>
+		</header>
+		<nav>
+			<ul>
+				<li>CONNEXION</li>
+				<li>INSCRIPTION</li>
+			</ul>
+		</nav>
+
+		<section>
+			<aside>
+				<img src="images/10.png" alt="photo de pendu" id="img_pendu"/>
+				<div id="controlesJeux">
+					<pre id="mot"></pre>
+					<p id="score"></p>
+					<p id="erreurs"></p>
+					<input tabindex="1" type="text" id="lettre" onkeypress="entrer(event)" />
+					<div id="confirmation" class="boutons" onclick="lireLettre()">CONFIRMER</div>
+				</div>
+			</aside>
+			
+			<article id="controlesAutres">	
+				<div tabindex="1" onclick="init()"  id="btn_Commencer" class="boutons">Commencer la partie</div>
+					</br>
+				<div tabindex="2" id="btn_Scores" class="boutons">Scores</div>
+            </article>
+		</section>
+		
+		<footer>
+			<p>Qui sommes nous ?</p>
+		</footer>
+		
+		<script src="scripts/main.js"></script>
+		<script src="scripts/pendu.js"></script>
+	</body>
+</html>

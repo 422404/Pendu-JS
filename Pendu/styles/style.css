@@ -1,0 +1,94 @@
+body {
+	background-color : #f8de95;
+}
+
+header {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+header a{
+	text-decoration: none;
+	color: black;
+	cursor: pointer;
+}
+
+#img_pendu {
+	width: 300px;
+	height: 400px;
+	background-color: white;
+	border: 1px solid black;
+}
+
+
+nav {
+	position: absolute;
+	top: 15px;
+	right: 0;
+}
+
+nav li{
+	display: inline-block;
+	margin-right: 15px;
+}
+
+section {
+	margin-top: 150px;
+	margin-left: 25%;
+	margin-right: 25%;
+	width : 600px;
+	
+}
+
+aside {
+	display: inline-block;
+}
+
+article {
+	display: inline-block;
+	text-align: center;
+}
+
+.boutons {
+	border: 1px solid black;
+	border-radius: 5px;
+	display: table-cell;
+	vertical-align: middle;
+	cursor: pointer;
+	background-color: white;
+	padding: 3px;
+	margin: 5px;
+}
+
+#confirmation {
+	display: inline;
+	text-align: right;
+}
+
+#btn_Scores {
+	width: 75px;
+}
+
+#btn_Commencer {
+	height: 90px;
+	width: 150px;
+}
+
+#controlesJeux {
+	visibility: hidden;
+	position :relative;
+	left : 375px;
+	top: -270px;
+}
+
+#controlesAutres {
+	position :relative;
+	left : 75px;
+	top: -200px;
+}
+
+#img_logo {
+     width: 190px;
+	 height: 60px;
+}
