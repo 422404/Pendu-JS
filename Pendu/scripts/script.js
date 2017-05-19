@@ -1,7 +1,7 @@
 ﻿function init() {
   // initialisations une fois qu'une partie est lancée
   // TODO tirage au sort de mots
-  tableauMot = motEnTableau("helloworld", 0, 2, 4, 5, 8);
+  tableauMot = mot2tab("helloworld", 0, 2, 4, 5, 8);
   erreurs = 0;
   score = 0;
   gagne = false;
@@ -12,7 +12,7 @@
   document.getElementById('controlesJeux').style.visibility = 'visible';
   document.getElementById('controlesAutres').style.visibility = 'hidden';
   document.getElementById("confirmation").innerHTML = "CONFIRMER";
-  document.getElementById('lettre').focus();
+  document.getElementById('l').focus();
   document.getElementById("lettre").value = "";
 }
 
@@ -31,9 +31,9 @@ tableau : {
     motNoncomplet : {'_', 'o', '_'}
 }
 */
-function motEnTableau(mot, ...indicesLettresCachees) {
+function mot2tab(mot, ...indicesLettresCachees) {
   var tabMot = mot.split("");
-  var tab_o_ = cacherMot(mot, indicesLettresCachees);
+  var tab_o_ = mot2_o_(mot, indicesLettresCachees);
   var tabFinal = [tabMot, tab_o_];
     
   return tabFinal;
@@ -44,7 +44,7 @@ function motEnTableau(mot, ...indicesLettresCachees) {
 Renvoie le mot passé en paramètre avec des '_' aux indices spécifiés
 dans le tableau indices en paramètres
 */
-function cacherMot(mot, indices) {
+function mot2_o_(mot, indices) {
   var tabMot = mot.split("");
   for (var indice = 0; indice < indices.length; indice++) {
       if (indices[indice] < tabMot.length) {

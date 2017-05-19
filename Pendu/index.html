@@ -9,7 +9,7 @@
 	<body>
 		
 		<header>
-			<img src="images/logo.png" alt="photo de logo" id="img_logo"/>
+			<a href='index.html'><img src="images/logo.png" alt="photo de logo" id="img_logo"/></a>
 		</header>
 		<nav>
 			<ul>
@@ -22,7 +22,7 @@
 			<aside>
 				<img src="images/10.png" alt="photo de pendu" id="img_pendu"/>
 				<div id="controlesJeux">
-					<pre id="mot"></pre>
+					<p id="mot"></p>
 					<p id="score"></p>
 					<p id="erreurs"></p>
 					<input tabindex="1" type="text" id="lettre" onkeypress="entrer(event)" />
@@ -31,17 +31,23 @@
 			</aside>
 			
 			<article id="controlesAutres">	
-				<div tabindex="1" onclick="init()"  id="btn_Commencer" class="boutons">Commencer la partie</div>
+				<div tabindex="1" onclick="init()" class="niveau boutons">Facile</div>
+				<div tabindex="2" onclick="init()" class="niveau boutons">Moyen</div>
+				<div tabindex="3" onclick="init()" class="niveau boutons">Difficile</div>
 					</br>
-				<div tabindex="2" id="btn_Scores" class="boutons">Scores</div>
+				<div tabindex="4" id="btn_Scores" class="boutons">Scores</div>
             </article>
+			
+			<ul id="aide">
+				<li>Aide</li>
+				<li>?</li>
+			</ul>
 		</section>
 		
 		<footer>
+			<!-- Qué !? -->
+			</br>
 			<p>Qui sommes nous ?</p>
 		</footer>
-		
-		<script src="scripts/main.js"></script>
-		<script src="scripts/pendu.js"></script>
 	</body>
 </html>
