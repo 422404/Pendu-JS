@@ -4,9 +4,7 @@ var DIFFICULTEE_DIFFICILE = 2;
 
 /****************** JeuPendu ************************/
 var JeuPendu = class {
-    // partieCourante: int
-	// timerHandle: handle
-	// temps: int
+    // partieCourante: Partie
     
     /*
      * Constructeur de la classe JeuPendu
@@ -88,10 +86,10 @@ var JeuPendu = class {
         }
         JeuPendu.resetSaisie();
         
-        if (jeu.getPartieCourante().getMot().fini()) {
+        if (jeu.getPartieCourante().getMot().isFini()) {
             Partie.finPartie(true, jeu.getPartieCourante().getScore(), 
                              jeu.getPartieCourante().getGibet().getNbPartiesAffichees());
-        } else if (jeu.getPartieCourante().getGibet().fini()) {
+        } else if (jeu.getPartieCourante().getGibet().isFini()) {
             Partie.finPartie(false, jeu.getPartieCourante().getScore(), 
                              jeu.getPartieCourante().getGibet().getNbPartiesAffichees());
         }
@@ -116,6 +114,8 @@ var Partie = class {
     // mot: Mot
     // gibet: Gibet
     // lettresJouees: char[]
+	// timerId: handle
+	// temps: int
     
     /*
      * Constructeur de la classe Partie
@@ -134,15 +134,15 @@ var Partie = class {
 		
 		this.temps = 0;
 		// on incremente le compteur de secondes... toutes les secondes...
-		this.timerHandle = setInterval(function() {jeu.getPartieCourante().incTemps();}, 1000);
+		this.timerId = setInterval(function() {jeu.getPartieCourante().incTemps();}, 1000);
     }
 	
 	/*
 	 * Retourne l'handle du timer de temps de jeu
 	 * Retour: l'handle du timer
      */
-    getTimerHandle() {
-		return this.timerHandle
+    getTimerId() {
+		return this.timerId
 	}
 	
 	/*
@@ -274,11 +274,10 @@ var Partie = class {
      * erreurs: Nombre d'erreurs du joueur
      */
     static finPartie(gagne, score, erreurs) {
-        var score;
 		var temps;
 		
 		// on stope le compteur de temps
-		clearInterval(jeu.getPartieCourante().getTimerHandle());
+		clearInterval(jeu.getPartieCourante().getTimerId());
 		
 		window.gagnePerdu.innerHTML = gagne ? "Félicitations ! :^)" : "Une autre fois peut-être :)";
 		jeu.getPartieCourante().afficherMotComplet();
@@ -291,24 +290,23 @@ var Partie = class {
 		
 		window.conteneurLettresJouees.innerHTML = "";
 		
-		// calcul du score final, on ajoute le bonus lié au temps
-		console.log(jeu.getPartieCourante().getTemps());
-		score = jeu.getPartieCourante().getScore();
-		temps = jeu.getPartieCourante().getTemps();
-		if (temps <= 10) {
-			score += 5000;
-			jeu.getPartieCourante().setScore(score);
-		    jeu.getPartieCourante().afficherScore(" pts <span style=\"color: green\">(bonus temps : +5000 pts)</span>");
-		} else if (temps <= 60) {
-			score += 2000;
-			jeu.getPartieCourante().setScore(score);
-		    jeu.getPartieCourante().afficherScore(" pts <span style=\"color: green\">(bonus temps : +2000 pts)</span>");
-		} else if (temps <= 120) {
-			score += 500;
-			jeu.getPartieCourante().setScore(score);
-		    jeu.getPartieCourante().afficherScore(" pts <span style=\"color: green\">(bonus temps : +500 pts)</span>");
+		if (gagne) {
+			// calcul du score final, on ajoute le bonus lié au temps
+			temps = jeu.getPartieCourante().getTemps();
+			if (temps <= 10) {
+				score += 5000;
+				jeu.getPartieCourante().setScore(score);
+				jeu.getPartieCourante().afficherScore(" pts <span style=\"color: green\">(bonus temps : +5000 pts)</span>");
+			} else if (temps <= 60) {
+				score += 2000;
+				jeu.getPartieCourante().setScore(score);
+				jeu.getPartieCourante().afficherScore(" pts <span style=\"color: green\">(bonus temps : +2000 pts)</span>");
+			} else if (temps <= 120) {
+				score += 500;
+				jeu.getPartieCourante().setScore(score);
+				jeu.getPartieCourante().afficherScore(" pts <span style=\"color: green\">(bonus temps : +500 pts)</span>");
+			}
 		}
-		// TODO afficher : (bonus temps : +5000 pts)
         
         window.rejouer.onclick = function() {
             eval("jeu = new JeuPendu();"
@@ -445,8 +443,9 @@ var Mot = class {
     
     /*
      * Indique si le mot est complet
+	 * Retour: True si toutes les lettres du mot on etees trouvees
      */
-    fini() {
+    isFini() {
         return this.motComplet == this.motIncomplet;
     }
 }
@@ -454,7 +453,7 @@ var Mot = class {
 
 /****************** FichierMots *********************/
 var FichierMots = class {
-    // NOM_FICHIERS: String[]
+    // NOMS_FICHIERS: String[]
     // difficultee: int
     // xhrFichier: XMLHttpRequest
     
@@ -465,7 +464,7 @@ var FichierMots = class {
      *              Doit etre dans 0..2
      */
     constructor(difficultee) {
-        this.NOM_FICHIERS = ["mots_facile.txt", "mots_moyen.txt", "mots_difficile.txt"];
+        this.NOMS_FICHIERS = ["mots_facile.txt", "mots_moyen.txt", "mots_difficile.txt"];
         this.difficultee = difficultee;
         
         this.xhrFichier = new XMLHttpRequest();
@@ -477,7 +476,7 @@ var FichierMots = class {
      */
     motAleatoire() {
         // requete asynchrone
-        this.xhrFichier.open("GET", this.NOM_FICHIERS[this.difficultee], false);
+        this.xhrFichier.open("GET", this.NOMS_FICHIERS[this.difficultee], false);
         this.xhrFichier.send();
         
         if (this.xhrFichier.status == 0 || this.xhrFichier.status == 200) {
@@ -541,8 +540,9 @@ var Gibet = class {
     
     /*
      * Indique si le gibet est complet
+	 * Retour: True si toutes les parties du gibet sont affichees
      */
-    fini() {
+    isFini() {
         return this.nbPartiesAffichees == 10;
     }
 }
