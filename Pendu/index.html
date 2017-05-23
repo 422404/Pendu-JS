@@ -1,53 +1,190 @@
 <!DOCTYPE html>
 <html>
-	<head>	
-		<meta charset="utf-8">
+    <head>  
+        <meta charset="utf-8">
         <title>Pendu En Ligne</title>
-		<link href="styles/style.css" rel="stylesheet" type="text/css">
-		<script src="scripts/script.js"></script>
+        <link href="styles/style.css" rel="stylesheet" type="text/css">
+        <script src="scripts/util.js"></script>
+        <script src="scripts/classes.js"></script>
     </head>
-	<body>
-		
-		<header>
-			<a href='index.html'><img src="images/logo.png" alt="photo de logo" id="img_logo"/></a>
-		</header>
-		<nav>
-			<ul>
-				<li>CONNEXION</li>
-				<li>INSCRIPTION</li>
-			</ul>
-		</nav>
+    <body>
+	    <div onclick="show('fenetre_score', 'wrap_score', 'none')" id="wrap_score"></div>
+			<center>
+						<!-- La fenetre de score -->
+				<div id="fenetre_score">
 
-		<section>
-			<aside>
-				<img src="images/10.png" alt="photo de pendu" id="img_pendu"/>
-				<div id="controlesJeux">
-					<p id="mot"></p>
-					<p id="score"></p>
-					<p id="erreurs"></p>
-					<input tabindex="1" type="text" id="lettre" onkeypress="entrer(event)" />
-					<div id="confirmation" class="boutons" onclick="lireLettre()">CONFIRMER</div>
-				</div>
-			</aside>
+					<img class="close" onclick="show('fenetre_score', 'wrap_score', 'none')" src="http://sergey-oganesyan.ru/wp-content/uploads/2014/01/close.png">
+					<p><font color="white"> Elyan - 300 Points</font></p>
+					<p><font color="white"> Morgane - Champion</font></p>
+					<p><font color="white"> Pierre - IHM J'aime</font></p>
+					<p><font color="white"> Alex - Super Alex</font></p>
+				<div onclick="show('fenetre_score', 'wrap_score', 'none')" id="bnt_Quitter" class="boutons">Quitter</div>
+			</center>
+				
+		</div>		
+					
+	        	<!-- Le font arrier de COMMEXION -->
+		<div onclick="show('fenetre_connexion', 'wrap_connexion', 'none')" id="wrap_connexion"></div>
+
+				<!-- La fenetre de de connexion -->
+		<div id="fenetre_connexion">
+		    <center>
+				<img id="close" onclick="show('fenetre_connexion', 'wrap_connexion', 'none')" src="http://sergey-oganesyan.ru/wp-content/uploads/2014/01/close.png"> 
+				<table class="pop_up"> 
+					<tr>
+						<th><label>Pseudo</label></th>
+						<th><input type='text' name='pseudo' required></th>
+					</tr>
+					<tr>
+						<th><label>Mot de Passe</label></th>
+						<th><input type='text' name='mot de pasee' placeholder='Composer 7 caracteres' required></th>
+					</tr>
+					<tr> 
+						<label id="leschamps">CONNEXION</label>
+					</tr>
+				</table>			
+				<!-- Le button de sortie -->
+				<div onclick="show('fenetre_connexion', 'wrap_connexion', 'none')" class="bnt_Entree boutons">Entree</div>
+				<div onclick="show('fenetre_connexion', 'wrap_connexion', 'none')" class="bnt_Quitter boutons">Quitter</div>           	
+			</center>
+	   	</div>	
+	
+	
+			        	<!-- Le font arrier INSCRIPTION -->
+		<div onclick="show('fenetre_inscription', 'wrap_inscription', 'none')" id="wrap_inscription"></div>
+
+				<!-- La fenetre de de connexion -->
+		<div id="fenetre_inscription">
+			<center>
+			<img class="close" onclick="show('fenetre_inscription', 'wrap_inscription', 'none')" src="http://sergey-oganesyan.ru/wp-content/uploads/2014/01/close.png">
 			
-			<article id="controlesAutres">	
-				<div tabindex="1" onclick="init()" class="niveau boutons">Facile</div>
-				<div tabindex="2" onclick="init()" class="niveau boutons">Moyen</div>
-				<div tabindex="3" onclick="init()" class="niveau boutons">Difficile</div>
-					</br>
-				<div tabindex="4" id="btn_Scores" class="boutons">Scores</div>
-            </article>
+					      <!-- Completer l'information necessaire -->
+			<table class="pop_up">	
+				<tr>
+					<span id="leschamps">INSCRITION</span>
+				</tr>
+					
+				<tr>
+					<td>Pseudo&nbsp;:</td>
+					<td><input type='text' name='pseudo' required></td>
+				</tr>
+				<tr>
+					<td>Mot&nbsp;de&nbsp;Passe&nbsp;:</td>
+					<td><input type='text' name='mot de pasee' placeholder='Composer 7 caracteres' required></td>
+				</tr>
+				<tr>
+					<td>Confirmation&nbsp;:</td>
+					<td><input type='text' name='confirmation' required></td>
+				</tr> 
+				<tr>
+					<td id="question_perso">Question&nbsp;personnelle&nbsp;:</td>			
+					<td>
+						<select id="select_reponse">
+							<option>Nom de votre premier animal de compagnie ?</option>
+							<option>Nom de jeune fille de votre mère ?</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>Votre&nbsp;reponse&nbsp;:</td>
+					<td><input type='email' name='reponse_perso' required></td>
+				</tr>
+			</table>
 			
-			<ul id="aide">
-				<li>Aide</li>
-				<li>?</li>
-			</ul>
-		</section>
+			 <!-- Le button de sortie -->
+			<div onclick="show('fenetre_inscription', 'wrap_inscription', 'none')" id="bnt_Quitter_Inscription" class="boutons" >Quitter</div>
+			<div onclick="show('fenetre_inscription', 'wrap_inscription', 'none')" id="bnt_Enregistrer" class="boutons">Enregistrer</div>
+		    </center>	
+		</div>
 		
-		<footer>
-			<!-- Qué !? -->
-			</br>
-			<p>Qui sommes nous ?</p>
-		</footer>
-	</body>
+		<!-- Le font arrier de AIDE-->
+		<div onclick="show('fenetre_aide', 'wrap_aide', 'none')" id="wrap_aide"></div>
+
+					<!-- La fenetre de AIDE-->
+			<div id="fenetre_aide">
+			<center>
+			<img class="close" onclick="show('fenetre_aide', 'wrap_aide', 'none')" src="http://sergey-oganesyan.ru/wp-content/uploads/2014/01/close.png">
+			<p><font color="white"> Exemple de regles</font></p>
+			<button onclick="show('fenetre_aide', 'wrap_aide', 'none')" id="bnt_Quitter">Quitter</button>
+			</center>
+				
+		</div>
+		
+							<!-- Le font arrier de QUI SOMMES NOUS-->
+		<div onclick="show('fenetre_nous', 'wrap_nous', 'none')" id="wrap_nous"></div>
+
+					<!-- La fenetre de QUI SOMMES NOUS-->
+			<div id="fenetre_nous">
+			<center>
+			<img class="close" onclick="show('fenetre_nous', 'wrap_nous', 'none')" src="http://sergey-oganesyan.ru/wp-content/uploads/2014/01/close.png">
+			<p><font color="white"> Elyan et les autres sont mecs bon</font></p>
+			<button onclick="show('fenetre_nous', 'wrap_nous', 'none')" id="bnt_Quitter">Quitter</button>
+			</center>
+				
+		</div>	
+	
+        <header>
+            <a href='index.html'><img src="images/logo.png" alt="photo de logo" id="img_logo"/></a>
+        </header>
+        <nav>
+            <ul>
+                <li><button onclick="show('fenetre_connexion', 'wrap_connexion', 'block')" id="btn_Connexion" class="boutons">CONNEXION</button></li>
+				<li><button onclick="show('fenetre_inscription', 'wrap_inscription', 'block')" id="btn_Inscription" class="boutons">INSCRIPTION</button></li>
+            </ul>
+        </nav>
+
+        <section>
+            <aside>
+                <img src="images/10.png" alt="photo de pendu" id="img_pendu"/>
+            </aside>
+            
+            <article id="controles">  
+                <div id="choixDifficultee">
+					<div tabindex="1" onclick="jeu.lancerPartie(0)" class="niveau boutons">Facile</div>
+					<div tabindex="2" onclick="jeu.lancerPartie(1)" class="niveau boutons">Moyen</div>
+					<div tabindex="3" onclick="jeu.lancerPartie(2)" class="niveau boutons">Difficile</div>
+						</br>
+					<div tabindex="2" onclick="show('fenetre_score', 'wrap_score', 'block')" id="btn_Scores" class="boutons">Scores</div>
+				</div>
+				
+				<div id="controlesJeux">
+				    <p id="gagnePerdu"></p>
+                    <p id="conteneurMot"></p>
+                    <p id="conteneurScore"></p>
+                    <p id="conteneurErreurs"></p>
+                    <p id="conteneurLettresJouees"></p>
+                    
+					<div id="entree">
+						<input tabindex="1" type="text" id="saisie" onkeydown="keyDownHandler(event)" />
+						<div id="confirmationSaisie" class="boutons">CONFIRMER</div>
+					</div>
+					
+					<div id="attention">
+					    <table>
+						    <tr>
+							    <td id="logoAttention"></td>
+								<td id="texteAttention">
+								Attention : entrer plus d'un caractère signifie que vous voulez deviner le mot entier.
+					            Si le mot entré est le bon vous gagnerez la partie, sinon vous perdrez !
+								</td>
+							</tr>
+						</table>
+					</div>
+				
+				    <div id="rejouer" class="boutons">REJOUER</div>
+				    <div id="changerDifficultee" class="boutons">CHOIX DIFFICULTEE</div>
+				</div>
+            </article>
+        </section>
+		
+		<ul id="aide">
+		    <!-- modifier -->
+			<li onclick="show('fenetre_aide', 'wrap_aide', 'block')" id="btn_Aide" class="boutons">Aide ?</li>
+		</ul>
+        
+        <footer>
+            <!-- modifier -->
+            <p onclick="show('fenetre_nous', 'wrap_nous', 'block')" id="btn_Nous" class="boutons">Qui sommes nous ?</p>
+        </footer>
+    </body>
 </html>
