@@ -1,0 +1,118 @@
+{
+    "parties": [
+        {
+            "idjoueur": 1,
+            "mot": "multilateraux",
+            "difficulte": 2,
+            "score": 10000
+        },
+        {
+            "idjoueur": 1,
+            "mot": "surcomprimer",
+            "difficulte": 2,
+            "score": 10000
+        },
+        {
+            "idjoueur": 1,
+            "mot": "abatardir",
+            "difficulte": 1,
+            "score": 5000
+        },
+        {
+            "idjoueur": 1,
+            "mot": "deshabiller",
+            "difficulte": 1,
+            "score": 5000
+        },
+        {
+            "idjoueur": 2,
+            "mot": "torrefacteur",
+            "difficulte": 2,
+            "score": 5000
+        },
+        {
+            "idjoueur": 2,
+            "mot": "localisateur",
+            "difficulte": 2,
+            "score": 5500
+        },
+        {
+            "idjoueur": 1,
+            "mot": "dorer",
+            "difficulte": 0,
+            "score": 1500
+        },
+        {
+            "idjoueur": 3,
+            "mot": "bonjour",
+            "difficulte": 0,
+            "score": 1000
+        },
+        {
+            "idjoueur": 4,
+            "mot": "bonjour",
+            "difficulte": 0,
+            "score": 1500
+        },
+        {
+            "idjoueur": 1,
+            "mot": "encouru",
+            "difficulte": 0,
+            "score": 15000
+        },
+        {
+            "idjoueur": 1,
+            "mot": "capeler",
+            "difficulte": 0,
+            "score": 2600
+        },
+        {
+            "idjoueur": 2,
+            "mot": "empater",
+            "difficulte": 0,
+            "score": 15000
+        },
+        {
+            "idjoueur": 1,
+            "mot": "epair",
+            "difficulte": 0,
+            "score": 2400
+        },
+        {
+            "idjoueur": 1,
+            "mot": "canoter",
+            "difficulte": 0,
+            "score": 15000
+        },
+        {
+            "idjoueur": 1,
+            "mot": "adonner",
+            "difficulte": 0,
+            "score": 2600
+        },
+        {
+            "idjoueur": 1,
+            "mot": "emouleur",
+            "difficulte": 1,
+            "score": 2700
+        },
+        {
+            "idjoueur": 3,
+            "mot": "courroucer",
+            "difficulte": 1,
+            "score": 7000
+        },
+        {
+            "idjoueur": 1,
+            "mot": "explicatif",
+            "difficulte": 1,
+            "score": 0
+        },
+        {
+            "idjoueur": 1,
+            "mot": "maremoteur",
+            "difficulte": 1,
+            "score": 2900
+        }
+    ]
+}

@@ -1,0 +1,33 @@
+{
+    "dernierId": 4,
+    "utilisateurs": [
+        {
+            "pseudo": "elyan",
+            "pass": "1234567",
+            "idjoueur": 1,
+            "score": 94700,
+            "niveau": 9
+        },
+        {
+            "pseudo": "pierre",
+            "pass": "7654321",
+            "idjoueur": 2,
+            "score": 25500,
+            "niveau": 2
+        },
+        {
+            "pseudo": "morgane",
+            "pass": "badminton",
+            "idjoueur": 3,
+            "score": 8000,
+            "niveau": 0
+        },
+        {
+            "pseudo": "alex",
+            "pass": "superalex",
+            "idjoueur": 4,
+            "score": 1500,
+            "niveau": 0
+        }
+    ]
+}

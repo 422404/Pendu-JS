@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+    <head>  
+        <meta charset="utf-8">
+        <title>Pendu En Ligne</title>
+        <link href="styles/style.css" rel="stylesheet" type="text/css" />
+        <script src="scripts/util.js"></script>
+        <script src="scripts/classes.js"></script>
+    </head>
+    
+    <body onload="reconnecter()">
+        <div onclick="show('fenetre_score', 'wrap_score', 'none')" id="wrap_score"></div>
+            <center>
+                <!-- La fenetre de score -->
+                <div id="fenetre_score">
+
+                    <img class="close" onclick="show('fenetre_score', 'wrap_score', 'none')" src="images/close.png">
+                    <p class="titrePopup">TOP 10&nbsp;:</p>
+                    <div id="listeScores"></div>
+                <div onclick="show('fenetre_score', 'wrap_score', 'none')" class="btn_Quitter boutons">Quitter</div>
+            </center>
+                
+        </div>      
+                    
+        
+        <!-- Le font arrier de CONNEXION -->
+        <div onclick="show('fenetre_connexion', 'wrap_connexion', 'none')" id="wrap_connexion"></div>
+        <!-- La fenetre de de connexion -->
+        <div id="fenetre_connexion">
+            <center>
+                <img id="close" onclick="show('fenetre_connexion', 'wrap_connexion', 'none')" src="images/close.png"> 
+                <table class="pop_up">
+                    <tr>
+                        <td colspan="2" class="titrePopup">CONNEXION</td>
+                    </tr>
+                    <tr>
+                        <td class ="popupLabel">Pseudo&nbsp;:</td>
+                        <td><input type='text' id='pseudo' required></td>
+                    </tr>
+                    <tr>
+                        <td class="popupLabel">Mot&nbsp;de&nbsp;Passe&nbsp;:</td>
+                        <td><input type='text' id='pass' required></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" id="connexionEchouee"></td>
+                    </tr>
+                </table>            
+                <!-- Le button de sortie -->
+                <div onclick="connexion(true)" class="btn_Entree boutons">Se connecter</div>
+                <div onclick="show('fenetre_connexion', 'wrap_connexion', 'none')" class="btn_Quitter boutons">Annuler</div>            
+            </center>
+        </div>  
+    
+    
+        <!-- Le font arrier INSCRIPTION -->
+        <div onclick="show('fenetre_inscription', 'wrap_inscription', 'none')" id="wrap_inscription"></div>
+
+                <!-- La fenetre de de connexion -->
+        <div id="fenetre_inscription">
+            <center>
+            <img class="close" onclick="show('fenetre_inscription', 'wrap_inscription', 'none')" src="images/close.png">
+            
+                          <!-- Completer l'information necessaire -->
+            <table class="pop_up">  
+                <tr>
+                    <td colspan="2" class="titrePopup">INSCRIPTION</td>
+                </tr>
+                    
+                <tr>
+                    <td>Pseudo&nbsp;:</td>
+                    <td><input type='text' id="inscriptionPseudo" placeholder='mini 3 caracteres' required></td>
+                </tr>
+                <tr>
+                    <td>Mot&nbsp;de&nbsp;Passe&nbsp;:</td>
+                    <td><input type='text' id="inscriptionPass" placeholder='mini 7 caracteres' required></td>
+                </tr>
+                <tr>
+                    <td>Confirmation&nbsp;:</td>
+                    <td><input type='text' id="inscriptionPass2" required></td>
+                </tr>
+                <tr>
+                    <td colspan="2" id="inscriptionEchouee"></td>
+                </tr>
+            </table>
+            
+             <!-- Le button de sortie -->
+            <div onclick="show('fenetre_inscription', 'wrap_inscription', 'none')" id="btn_Quitter_Inscription" class="boutons">Annuler</div>
+            <div onclick="inscription()" id="btn_Enregistrer" class="boutons">S'inscrire</div>
+            </center>   
+        </div>
+        
+        
+        <!-- Le font arrier de AIDE-->
+        <div onclick="show('fenetre_aide', 'wrap_aide', 'none')" id="wrap_aide"></div>
+
+                    <!-- La fenetre de AIDE-->
+        <div id="fenetre_aide">
+            <img class="close" onclick="show('fenetre_aide', 'wrap_aide', 'none')" src="images/close.png">
+            <div id="regles">
+                <p>Il y a des lettres cachées et il faut les trouver.</p>
+            </div>
+            <div onclick="show('fenetre_aide', 'wrap_aide', 'none')" class="btn_Quitter boutons">Quitter</div>
+        </div>
+        
+        
+        <!-- Le font arrier de QUI SOMMES NOUS-->
+        <div onclick="show('fenetre_nous', 'wrap_nous', 'none')" id="wrap_nous"></div>
+
+                    <!-- La fenetre de QUI SOMMES NOUS-->
+            <div id="fenetre_nous">
+            <img class="close" onclick="show('fenetre_nous', 'wrap_nous', 'none')" src="images/close.png">
+            <p class="titrePopup">Qui sommes nous ?</p>
+            <div id="quiSommesNous">
+                <p>Nous sommes des étudiants du DUT Informatique de l'<a href="http://www.iut-rodez.fr/">IUT de Rodez</a>.
+                   <br>
+                   Ce site est l'objet d'un projet de programmation d'un pendu en JavaScript.
+                   <br>
+                   Le projet inclut la programmation du jeu côté client mais aussi d'un serveur
+                   sous Node.JS</p>
+                <p>Membres du projet&nbsp;:</p>
+                <ul>
+                    <ul>Elyan Poujol</ul>
+                    <ul>Pierre Romestant</ul>
+                    <ul>Morgane Tuffery</ul>
+                    <ul>Aleksandr Vassilyev</ul>
+                </ul>
+            </div>
+            <div onclick="show('fenetre_nous', 'wrap_nous', 'none')" class="btn_Quitter boutons">Quitter</div>       
+        </div>
+        
+        
+        <!-- fenetre ou sont listes les precedentes parties de l'utilisateur -->
+        <div onclick="show('fenetreListeParties', 'wrapListeParties', 'none')" id="wrapListeParties"></div>
+        <div id="fenetreListeParties">
+            <center>
+                <img class="close" onclick="show('fenetreListeParties', 'wrapListeParties', 'none')" src="images/close.png">
+                <p class="titrePopup">Vos parties&nbsp;:</p>
+                <div id="listeParties"></div>
+                <div onclick="show('fenetreListeParties', 'wrapListeParties', 'none')" id="btn_Quitter" class="boutons">FERMER</div>
+            </center>
+        </div>
+        
+    
+        <header>
+            <a href='index.html'><img src="images/logo.png" alt="photo de logo" id="img_logo"/></a>
+        </header>
+        <nav>
+            <ul id="connexion_inscription">
+                <li><div onclick="show('fenetre_connexion', 'wrap_connexion', 'block')" id="btn_Connexion" class="boutons">CONNEXION</div></li>
+                <li><div onclick="show('fenetre_inscription', 'wrap_inscription', 'block')" id="btn_Inscription" class="boutons">INSCRIPTION</div></li>
+            </ul>
+            
+            <div id="infoUtilisateur">
+               <table>
+                   <tr><td colspan="2" id="pseudoUtilisateur"></td></tr>
+                   <tr>
+                       <td id="scoreUtilisateur"></td>
+                       <td id="niveauUtilisateur"></td>
+                   </tr>
+                   <tr>
+                       <td colspan="2">
+                           <span class="optionUtilisateur" onclick="listerParties()">Mes parties</span>
+                           <span class="optionUtilisateur" onclick="deconnecter()">Déconnection</span>
+                       </td>
+                   </tr>
+               </table>
+            </div>
+        </nav>
+
+        <section>
+            <aside>
+                <img src="images/10.png" alt="photo de pendu" id="img_pendu"/>
+            </aside>
+            
+            <article id="controles">  
+                <div id="choixdifficulte">
+                    <div tabindex="1" onclick="jeu.lancerPartie(0)" class="niveau boutons">Facile</div>
+                    <div tabindex="2" onclick="jeu.lancerPartie(1)" class="niveau boutons">Moyen</div>
+                    <div tabindex="3" onclick="jeu.lancerPartie(2)" class="niveau boutons">Difficile</div>
+                        </br>
+                    <div tabindex="2" onclick="listerHighscores()" id="btn_Scores" class="boutons">Top 10</div>
+                </div>
+                
+                <div id="controlesJeux">
+                    <p id="gagnePerdu"></p>
+                    <p id="conteneurMot"></p>
+                    <p id="conteneurScore"></p>
+                    <p id="conteneurErreurs"></p>
+                    <p id="conteneurLettresJouees"></p>
+                    
+                    <div id="entree">
+                        <input tabindex="1" type="text" id="saisie" onkeydown="keyDownHandler(event)" />
+                        <div id="confirmationSaisie" class="boutons">CONFIRMER</div>
+                    </div>
+                    
+                    <div id="attention">
+                        <table>
+                            <tr>
+                                <td id="logoAttention"></td>
+                                <td id="texteAttention">
+                                Attention : entrer plus d'un caractère signifie que vous voulez deviner le mot entier.
+                                Si le mot entré est le bon vous gagnerez la partie, sinon vous perdrez !
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                
+                    <div id="rejouer" class="boutons">REJOUER</div>
+                    <div id="changerdifficulte" class="boutons">CHOIX difficulte</div>
+                </div>
+            </article>
+        </section>
+        
+        <ul id="aide">
+            <!-- modifier -->
+            <li onclick="show('fenetre_aide', 'wrap_aide', 'block')" id="btn_Aide" class="boutons">Aide ?</li>
+        </ul>
+        
+        <footer>
+            <!-- modifier -->
+            <p onclick="show('fenetre_nous', 'wrap_nous', 'block')" id="btn_Nous" class="boutons">Qui sommes nous ?</p>
+        </footer>
+    </body>
+</html>

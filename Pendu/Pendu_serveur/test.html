@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	    <title>POST test</title>
+		<meta charset="utf-8" />
+		<script>
+		    function motAleatoire() {
+			    var xhr = new XMLHttpRequest();
+				var difficulte = window.difficulte.value;
+				
+				xhr.open("POST", "http://localhost:8080/", true);
+				xhr.onreadystatechange = function() {
+				    if (xhr.readyState == 4) {
+					    if (xhr.status == 200) {
+							window.resultatdifficulte.innerHTML = xhr.responseText;
+						} else {
+						    window.resultatdifficulte.innerHTML = "Erreur: " +  xhr.status;
+						}
+					}
+				}
+				xhr.send("type=mot&difficulte=" + difficulte);
+		    }
+			
+            
+			function actionCompte() {
+			    var xhr = new XMLHttpRequest();
+				var id = window.id.value;
+				var pass = window.pass.value;
+                var action = window.action.value;
+				
+				xhr.open("POST", "http://localhost:8080/", true);
+				xhr.onreadystatechange = function() {
+				    if (xhr.readyState == 4) {
+					    if (xhr.status == 200) {
+                            switch (action) {
+                                case "connect":
+                                    var compte = JSON.parse(xhr.responseText);
+                                    window.resultatConnexion.innerHTML = "Niveau : " 
+                                                                         + compte.niveau 
+                                                                         + " Score : " 
+                                                                         + compte.score;
+                                    break;
+                                
+                                case "get-scores":
+                                    var parties = JSON.parse(xhr.responseText);
+                                    window.resultatConnexion.innerHTML = "";
+                                    
+                                    for (var i = 0; i < parties.length; i++) {
+                                        window.resultatConnexion.innerHTML += "mot : "
+                                                                              + parties[i].mot
+                                                                              + " difficulte : "
+                                                                              + parties[i].difficulte
+                                                                              + " score : "
+                                                                              + parties[i].score
+                                                                              + "<br>";
+                                    }
+                                    break;
+                                
+                                case "add-score":
+                                    window.resultatConnexion.innerHTML = "partie sauvée";
+                                    break;
+                            }
+						} else {
+						    window.resultatConnexion.innerHTML = "Erreur: " +  xhr.status;
+						}
+					}
+				}
+				if (action == "add-score") {
+                    var mot = window.mot.value;
+                    var difficulte = window.difficulte2.value;
+                    var score = window.score.value;
+                    
+                    xhr.send("type=compte&id=" + id + "&pass=" + pass + "&action=" + action 
+                            // stub
+                            + "&mot=" + mot + "&difficulte=" + difficulte + "&score=" + score);
+                } else {
+                    xhr.send("type=compte&id=" + id + "&pass=" + pass + "&action=" + action);
+                }
+		    }
+            
+            
+            function inscription() {
+			    var xhr = new XMLHttpRequest();
+				var id = window.id2.value;
+				var pass = window.pass2.value;
+				
+				xhr.open("POST", "http://localhost:8080/", true);
+				xhr.onreadystatechange = function() {
+				    if (xhr.readyState == 4) {
+					    if (xhr.status == 200) {
+							window.resultatInscription.innerHTML = "inscrit";
+						} else {
+						    window.resultatInscription.innerHTML = "Erreur: " +  xhr.status;
+						}
+					}
+				}
+				xhr.send("type=inscription&id=" + id + "&pass=" + pass);
+		    }
+            
+            
+            function highscores() {
+			    var xhr = new XMLHttpRequest();
+                window.resultatHighscores.innerHTML = "";
+				
+				xhr.open("POST", "http://localhost:8080/", true);
+				xhr.onreadystatechange = function() {
+				    if (xhr.readyState == 4) {
+					    if (xhr.status == 200) {
+                            var highscores = JSON.parse(xhr.responseText);
+                        
+                            for (var i = 0; i < highscores.length; i++) {
+                                window.resultatHighscores.innerHTML += "pseudo : "
+                                                                      + highscores[i].pseudo
+                                                                      + " score : "
+                                                                      + highscores[i].score
+                                                                      + "<br>";
+                            }
+						} else {
+						    window.resultatHighscores.innerHTML = "Erreur: " +  xhr.status;
+						}
+					}
+				}
+				xhr.send("type=highscores");
+		    }
+		</script>
+	</head>
+	
+	<body>
+        <h4>Test mots</h4>
+	    <select id="difficulte">
+		    <option value="0">Facile</option>
+		    <option value="1">Moyen</option>
+		    <option value="2">Difficile</option>
+			<option value="1000">Erreur!</option>
+		</select>
+	    <button onclick="motAleatoire()">RECEVOIR</button>
+		<p id="resultatdifficulte"></p>
+		
+        
+        <h4>Test actions sur compte</h4>
+		<input type="text" id="id" />
+		<input type="text" id="pass" />
+        <select id="action">
+		    <option value="connect">connect</option>
+		    <option value="get-scores">get-scores</option>
+		    <option value="add-score">add-score</option>
+		</select>
+        <br>
+        <input type="text" id="mot" />
+        <select id="difficulte2">
+		    <option value="0">Facile</option>
+		    <option value="1">Moyen</option>
+		    <option value="2">Difficile</option>
+			<option value="1000">Erreur!</option>
+		</select>
+        <input type="text" id="score" />
+		<button onclick="actionCompte()">OK</button>
+		<p id="resultatConnexion"></p>
+        
+        
+        <h4>Test inscription compte</h4>
+        <input type="text" id="id2" />
+        <input type="text" id="pass2" />
+		<button onclick="inscription()">INSCRIPTION</button>
+		<p id="resultatInscription"></p>
+        
+        <h4>Test highscores</h4>
+        <button onclick="highscores()">AFFICHER</button>
+        <p id="resultatHighscores"></p>
+	</body>
+</html>

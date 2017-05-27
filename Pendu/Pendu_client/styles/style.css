@@ -1,0 +1,438 @@
+@font-face {
+    font-family: "LemonYellowSun";
+    src: url('DK Lemon Yellow Sun.otf');
+}
+
+@font-face {
+    font-family: FontAwesome;
+    src: url('fontawesome-webfont.woff');
+}
+
+body {
+    background-image : url('../images/background.png');
+    font-family: "LemonYellowSun", Helvetica, Arial, sans-serif;
+    font-size: 25px; 
+}
+
+header {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+header a{
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+}
+
+#img_pendu {
+    width: 300px;
+    height: 400px;
+}
+
+
+nav {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    margin-top: 0px;
+    font-size: 27px;
+}
+
+nav li{
+    display: inline-block;
+    margin-right: 15px;
+}
+
+section {
+    margin: auto;
+    margin-top: 150px;
+    width : 600px;
+    
+}
+
+aside {
+    display: inline-block;
+}
+
+article {
+    display: inline-block;
+    text-align: center;
+}
+
+footer {
+    text-align: center;
+    position: fixed;
+    bottom : 30px;
+    left : 20px;
+}
+
+.boutons {
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    border: 1px solid black;
+    border-radius: 5px;
+    display: inline-block;
+    /*vertical-align: middle;*/
+    cursor: pointer;
+    background-color: white;
+    padding: 3px;
+    margin: 5px;
+    color: black;
+}
+
+.boutons:hover {
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.boutons:active {
+    background-color: #DDDDDD;
+}
+
+.niveau {
+    height: 50px;
+    width: 75px;
+    margin: 20px;
+    padding-top: 15px;
+    padding-bottom: 0px;
+    
+}
+
+#confirmation {
+    display: inline;
+    text-align: right;
+}
+
+#btn_Scores {
+    width: 75px;
+}
+
+#controlesJeux {
+    display: none;
+    position :relative;
+    top: -50px;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    border-color: black;
+}
+
+#aide {
+    list-style:none;
+    /*margin-right: 15px;
+    position: absolute;
+    right: 10px;
+    border-radius:5px;*/
+    font-size: 27px;
+    /*padding-left: 15px;*/
+    text-align: center;
+    position: fixed;
+    bottom : 30px;
+    right : 20px;
+}
+
+#aide li {
+    display: inline-block;
+}
+
+#saisie {
+    position: relative;
+    top: -2px;
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 34px;
+    width: 200px;
+    font-size: 20px;
+}
+
+#conteneurMot {
+    margin-top: 0px;
+}
+
+#controles {
+    position :absolute;
+    top: 270px;
+    min-width: 400px;
+}
+
+#img_logo {
+     width: 190px;
+     height: 60px;
+     margin: 20px;
+     background-color: rgba(255, 255, 255, 0.3);
+}
+
+#rejouer {
+    display: none;
+    /*position :relative;
+    left : 50px;
+    top: -190px;*/
+}
+
+#difficultee {
+    display: none;
+    /*position :relative;
+    left : 50px;
+    top: -190px;*/
+}
+
+#attention {
+    display: none;
+    width: 280px;
+    padding: 10px;
+    background-color: #fa8072;
+    color: white;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-top: 15px;
+}
+
+#texteAttention {
+    font-family: Helvetica;
+    text-align: left;
+    padding-left: 10px;
+}
+
+#logoAttention {
+    vertical-align: top;
+}
+
+#logoAttention::before {
+    font-family: FontAwesome;
+    content: '\f071';
+}
+
+#wrap_score, #wrap_inscription{
+    display: none;
+    opacity: 0.8;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    padding: 16px;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 100;
+}
+
+#fenetre_inscription {
+    width: 400px;
+    height: 400px;
+    margin: 50px auto;
+    display: none;
+    color: white;
+    background-color: black;
+    border-radius : 0px 0px 10px 10px;
+    border-top: 5px solid white;
+    
+    z-index: 200;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100px;
+    bottom: 0;
+    padding: 16px;
+}
+
+#wrap_connexion, #wrapListeParties {
+    display: none;
+    opacity: 0.8;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    padding: 16px;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 100;
+}
+
+#fenetre_inscription {
+    height: 300px !important;
+}
+
+
+#fenetre_connexion {
+    width: 300px;
+    height: 220px;
+    margin: 50px auto;
+    display: none;
+    background-color: black;
+    border-radius : 0px 0px 10px 10px;
+    border-top: 5px solid white;
+    z-index: 200;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 150px;
+    bottom: 0 ;
+    padding: 16px;
+}
+
+#wrap_aide, #wrap_nous {
+    display: none;
+    opacity: 0.8;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    padding: 16px;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 100;
+    color: white;
+}
+
+#fenetre_aide, #fenetre_nous, #fenetreListeParties, #fenetre_score {
+    width: 400px;
+    height: 400px;
+    margin: 50px auto;
+    display: none;
+    background-color: black;
+    z-index: 200;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    padding: 16px;
+    color: white;
+    border-radius : 0px 0px 10px 10px;
+    border-top: 5px solid white;
+}
+
+.btn_Quitter {
+    padding: 2px 15px;
+    position: absolute;
+    bottom: 10px;   
+    right: 10px;
+}   
+
+#btn_Quitter_Inscription {
+    padding: 2px 15px;
+    position: absolute;
+    bottom: 10px;   
+    left: 80px;
+}   
+
+.btn_Entree {
+  padding: 2px 15px;
+  position: absolute;
+  bottom: 10px; 
+  left: 10px;
+}
+
+#btn_Enregistrer{
+  position: absolute;
+  bottom: 10px; 
+  right: 80px;
+}
+
+    
+.close{
+    margin-left: 364px;
+    margin-top: 4px;
+    cursor: pointer;
+}
+    
+#close {
+    margin-left: 260px;
+    margin-top: 4px;
+    cursor: pointer;
+}   
+    
+#select_reponse {
+    bottom: 225px;  
+    left: 187px;
+    width: 142px;
+    height: 26px;
+}   
+
+.pop_up {
+    color: #FFFFFF;
+}
+
+.titrePopup {
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+    
+p {
+  font-size: 25px;
+}
+
+fieldset {
+  padding: 0;
+  margin: 0;
+  margin: 15px 0;
+  border: none;
+}
+
+.popupLabel {
+  width: 80px;
+  color: #FFFFFF;
+  font-size: 13pt;
+}
+
+#connexionEchouee {
+    font-size: 16px;
+    color: #fa8072;
+    text-align: center;
+    height: 25px;
+}
+
+#inscriptionEchouee {
+    font-size: 16px;
+    color: #fa8072;
+    text-align: center;
+    height: 25px;
+}
+
+option {
+  width: 60px;
+}
+
+#infoUtilisateur {
+    display: none;
+    cursor: pointer;
+    width: 200px;
+    padding: 10px;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+    border-radius: 0px 0px 0px 5px;
+    background-color: white;
+    font-size: 20px;
+}
+
+#infoUtilisateur td {
+    padding-right: 15px;
+}
+
+.optionUtilisateur {
+    font-size: 16px;
+    color: blue;
+    text-decoration: underline;
+}
+
+.optionUtilisateur:active {
+    color: red;
+}
+
+#listeParties, #listeScores, #quiSommesNous, #regles {
+    color: white;
+    font-size: 20px;
+    overflow-y: auto;
+    height: 260px;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+}
+
+#tabListeParties, #tabListeScores {
+    text-align: left;
+}
+
+#tabListeParties td, #tabListeScores td {
+    text-align: left;
+    padding: 5px 10px 5px 5px;
+}

@@ -1,6 +1,9 @@
-var DIFFICULTEE_FACILE = 0;
-var DIFFICULTEE_MOYEN = 1;
-var DIFFICULTEE_DIFFICILE = 2;
+var difficulte_FACILE = 0;
+var difficulte_MOYEN = 1;
+var difficulte_DIFFICILE = 2;
+
+var SITE_URL = "http://localhost:8080/";
+
 
 /****************** JeuPendu ************************/
 var JeuPendu = class {
@@ -11,24 +14,24 @@ var JeuPendu = class {
      */
     constructor() {}
     
-    lancerPartie(difficultee) {
+    lancerPartie(difficulte) {
         window.controlesJeux.style.display = "block";
-        window.choixDifficultee.style.display = "none";
+        window.choixdifficulte.style.display = "none";
        
-	    window.rejouer.style.display = "none";
-		window.changerDifficultee.style.display = "none";
-		
-		window.entree.style.display = "block";    
+        window.rejouer.style.display = "none";
+        window.changerdifficulte.style.display = "none";
+        
+        window.entree.style.display = "block";    
         window.attention.style.display = "none";
-		
-		window.gagnePerdu.innerHTML = "";
+        
+        window.gagnePerdu.innerHTML = "";
     
-        this.partieCourante = new Partie(difficultee);
+        this.partieCourante = new Partie(difficulte);
         JeuPendu.resetSaisie();
         window.confirmationSaisie.onclick = JeuPendu.saisieHandler;
         focusSaisie();
     }
-	
+    
     /*
      * Renvoie la partie courante
      * Retour: la référence de la partie courante
@@ -42,7 +45,7 @@ var JeuPendu = class {
      * Executera la verification des entrees
      */
     static saisieHandler() {
-        var saisie = window.saisie.value;
+        var saisie = window.saisie.value.toLowerCase();
         var occ;
         var motJuste;
         var tableauLettresJouees;
@@ -67,21 +70,21 @@ var JeuPendu = class {
             
             // si la lettre ne figure pas dans le mot
             if (occ == 0) {
-                if (jeu.getPartieCourante().getDifficultee() == DIFFICULTEE_FACILE
+                if (jeu.getPartieCourante().getDifficulte() == difficulte_FACILE
                     && !lettreJouee) {
                     jeu.getPartieCourante().getGibet().ajouterPartie(1);
-                } else if (jeu.getPartieCourante().getDifficultee() == DIFFICULTEE_MOYEN) {
+                } else if (jeu.getPartieCourante().getDifficulte() == difficulte_MOYEN) {
                     jeu.getPartieCourante().getGibet().ajouterPartie(2);
-                } else if (jeu.getPartieCourante().getDifficultee() == DIFFICULTEE_DIFFICILE) {
+                } else if (jeu.getPartieCourante().getDifficulte() == difficulte_DIFFICILE) {
                     jeu.getPartieCourante().getGibet().ajouterPartie(4);
                 }
             }
-			
-			jeu.getPartieCourante().afficherScore();
+            
+            jeu.getPartieCourante().afficherScore();
             jeu.getPartieCourante().afficherErreurs();
         } else if (saisie.length > 1) {
             motJuste = jeu.getPartieCourante().getMot().verifierMot(saisie);
-            jeu.partieCourante.setScore(motJuste ? 10000 - jeu.getPartieCourante().getScore() * 10 - jeu.getPartieCourante().getGibet().getNbPartiesAffichees() * 20 : 0);
+            jeu.partieCourante.setScore(motJuste ? 5000 - jeu.getPartieCourante().getScore() * 10 - jeu.getPartieCourante().getGibet().getNbPartiesAffichees() * 20 : 0);
             Partie.finPartie(motJuste, jeu.getPartieCourante().getScore(), jeu.getPartieCourante().getGibet().getNbPartiesAffichees());
         }
         JeuPendu.resetSaisie();
@@ -109,56 +112,56 @@ var jeu = new JeuPendu();
 
 /****************** Partie **************************/
 var Partie = class {
-    // difficultee: int
+    // difficulte: int
     // score: int
     // mot: Mot
     // gibet: Gibet
     // lettresJouees: char[]
-	// timerId: handle
-	// temps: int
+    // timerId: handle
+    // temps: int
     
     /*
      * Constructeur de la classe Partie
-     * difficultee : Difficultee de la partie
+     * difficulte : difficulte de la partie
      */
-    constructor(difficultee) {
-        this.difficultee = difficultee;
+    constructor(difficulte) {
+        this.difficulte = difficulte;
         this.score = 0;
-        this.mot = new Mot(difficultee);
+        this.mot = new Mot(difficulte);
         this.gibet = new Gibet();
         this.lettresJouees = [];
         
         this.afficherMotIncomplet();
         this.afficherScore();
         this.afficherErreurs();
-		
-		this.temps = 0;
-		// on incremente le compteur de secondes... toutes les secondes...
-		this.timerId = setInterval(function() {jeu.getPartieCourante().incTemps();}, 1000);
+        
+        this.temps = 0;
+        // on incremente le compteur de secondes... toutes les secondes...
+        this.timerId = setInterval(function() {jeu.getPartieCourante().incTemps();}, 1000);
     }
-	
-	/*
-	 * Retourne l'handle du timer de temps de jeu
-	 * Retour: l'handle du timer
+    
+    /*
+     * Retourne l'handle du timer de temps de jeu
+     * Retour: l'handle du timer
      */
     getTimerId() {
-		return this.timerId
-	}
-	
-	/*
-	 * Incremente le temps de jeu de 1 seconde
-	 */
-	incTemps() {
-		this.temps++;
-	}
-	
-	/*
-	 * Renvoie le temps
-	 * Retour: Nombre de secondes
-	 */
-	getTemps() {
-		return this.temps;
-	}
+        return this.timerId
+    }
+    
+    /*
+     * Incremente le temps de jeu de 1 seconde
+     */
+    incTemps() {
+        this.temps++;
+    }
+    
+    /*
+     * Renvoie le temps
+     * Retour: Nombre de secondes
+     */
+    getTemps() {
+        return this.temps;
+    }
     
     /*
      * Renvoie les lettres deja entrees
@@ -174,9 +177,9 @@ var Partie = class {
      */
     ajouterLettresJouees(lettre) {
         this.lettresJouees.push(lettre);
-        if (this.difficultee != DIFFICULTEE_DIFFICILE) {
-			window.conteneurLettresJouees.innerHTML += lettre + "  ";
-		}
+        if (this.difficulte != difficulte_DIFFICILE) {
+            window.conteneurLettresJouees.innerHTML += lettre + "  ";
+        }
     }
     
     /*  
@@ -196,11 +199,11 @@ var Partie = class {
     }
     
     /*
-     * Getter de l'attribut difficultee
-     * retour: La valeur de difficultee
+     * Getter de l'attribut difficulte
+     * retour: La valeur de difficulte
      */
-    getDifficultee() {
-        return this.difficultee;
+    getDifficulte() {
+        return this.difficulte;
     }
     
     /*
@@ -237,7 +240,7 @@ var Partie = class {
     
     /*
      * Affiche le score
-	 * suffixe: Suffixe affiche si non undefined
+     * suffixe: Suffixe affiche si non undefined
      */
     afficherScore(suffixe) {
         window.conteneurScore.innerHTML = "Score : " + this.score + (typeof suffixe != "string" ? " pts" : suffixe);
@@ -248,20 +251,20 @@ var Partie = class {
      */
     afficherErreurs() {
         var erreurs = 0;
-		var suffixe = "";
+        var suffixe = "";
         
-        switch (this.difficultee) {
-            case DIFFICULTEE_FACILE:
+        switch (this.difficulte) {
+            case difficulte_FACILE:
                 erreurs = this.gibet.getNbPartiesAffichees();
-				suffixe = "10";
+                suffixe = "10";
                 break;
-            case DIFFICULTEE_MOYEN:
+            case difficulte_MOYEN:
                 erreurs = this.gibet.getNbPartiesAffichees() / 2;
-				suffixe = "5";
+                suffixe = "5";
                 break;
-            case DIFFICULTEE_DIFFICILE:
+            case difficulte_DIFFICILE:
                 erreurs = Math.ceil(this.gibet.getNbPartiesAffichees() / 4);
-				suffixe = "3";
+                suffixe = "3";
         }
         window.conteneurErreurs.innerHTML = "Erreurs : " + erreurs + " / " + suffixe;
     }
@@ -274,52 +277,81 @@ var Partie = class {
      * erreurs: Nombre d'erreurs du joueur
      */
     static finPartie(gagne, score, erreurs) {
-		var temps;
-		
-		// on stope le compteur de temps
-		clearInterval(jeu.getPartieCourante().getTimerId());
-		
-		window.gagnePerdu.innerHTML = gagne ? "Félicitations ! :^)" : "Une autre fois peut-être :)";
-		jeu.getPartieCourante().afficherMotComplet();
+        var temps;
+        
+        // on stope le compteur de temps
+        clearInterval(jeu.getPartieCourante().getTimerId());
+        
+        window.gagnePerdu.innerHTML = gagne ? "Félicitations ! :^)" : "Une autre fois peut-être :)";
+        jeu.getPartieCourante().afficherMotComplet();
 
-	    window.rejouer.style.display = "inline-block";
-		window.changerDifficultee.style.display = "inline-block";
-		
-		window.entree.style.display = "none";    
+        window.rejouer.style.display = "inline-block";
+        window.changerdifficulte.style.display = "inline-block";
+        
+        window.entree.style.display = "none";    
         window.attention.style.display = "none";
-		
-		window.conteneurLettresJouees.innerHTML = "";
-		
-		if (gagne) {
-			// calcul du score final, on ajoute le bonus lié au temps
-			temps = jeu.getPartieCourante().getTemps();
-			if (temps <= 10) {
-				score += 5000;
-				jeu.getPartieCourante().setScore(score);
-				jeu.getPartieCourante().afficherScore(" pts <span style=\"color: green\">(bonus temps : +5000 pts)</span>");
-			} else if (temps <= 60) {
-				score += 2000;
-				jeu.getPartieCourante().setScore(score);
-				jeu.getPartieCourante().afficherScore(" pts <span style=\"color: green\">(bonus temps : +2000 pts)</span>");
-			} else if (temps <= 120) {
-				score += 500;
-				jeu.getPartieCourante().setScore(score);
-				jeu.getPartieCourante().afficherScore(" pts <span style=\"color: green\">(bonus temps : +500 pts)</span>");
-			}
-		}
+        
+        window.conteneurLettresJouees.innerHTML = "";
+        
+        if (gagne) {
+            // calcul du score final, on ajoute le bonus lié au temps
+            temps = jeu.getPartieCourante().getTemps();
+            if (temps <= 10) {
+                score += 5000;
+                jeu.getPartieCourante().setScore(score);
+                jeu.getPartieCourante().afficherScore(" pts <span style=\"color: green\">(bonus temps : +5000 pts)</span>");
+            } else if (temps <= 60) {
+                score += 2000;
+                jeu.getPartieCourante().setScore(score);
+                jeu.getPartieCourante().afficherScore(" pts <span style=\"color: green\">(bonus temps : +2000 pts)</span>");
+            } else if (temps <= 120) {
+                score += 500;
+                jeu.getPartieCourante().setScore(score);
+                jeu.getPartieCourante().afficherScore(" pts <span style=\"color: green\">(bonus temps : +500 pts)</span>");
+            }
+        } else {
+            jeu.getPartieCourante().setScore(0);
+            jeu.getPartieCourante().afficherScore();
+        }
+        
+        
+        // on sauvegarde le score si l'utilisateur est connecte
+        if (utilisateur.estConnecte()) {
+            var xhr = new XMLHttpRequest();
+        
+            xhr.open("POST", "http://localhost:8080/", true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    console.log("partie sauvée");
+                    // on met a jour l'affichage
+                    var scoreGlobal = utilisateur.getScore() + jeu.getPartieCourante().getScore();
+                    var niveau = Math.floor(scoreGlobal / 10000);
+                    utilisateur.setNiveau(niveau);
+                    utilisateur.setScore(scoreGlobal);
+                    utilisateur.afficherStats();
+                } // TODO ...
+            };
+            
+            xhr.send("type=compte&id=" + utilisateur.getPseudo() 
+                     + "&pass=" + utilisateur.getMotDePasse() 
+                     + "&action=add-score&mot=" 
+                     + jeu.getPartieCourante().getMot().toString(true)
+                     + "&difficulte=" + jeu.getPartieCourante().getDifficulte()
+                     + "&score=" + jeu.getPartieCourante().getScore());
+        } // TODO ...
         
         window.rejouer.onclick = function() {
             eval("jeu = new JeuPendu();"
-                + "jeu.lancerPartie(" + jeu.getPartieCourante().getDifficultee()
+                + "jeu.lancerPartie(" + jeu.getPartieCourante().getDifficulte()
                 + ");");
         };
-		
-		window.changerDifficultee.onclick = function() {
-		    jeu = new JeuPendu();
-			window.controlesJeux.style.display = "none";
-			window.choixDifficultee.style.display = "block";
-			window.img_pendu.src = "images/10.png";
-		}
+        
+        window.changerdifficulte.onclick = function() {
+            jeu = new JeuPendu();
+            window.controlesJeux.style.display = "none";
+            window.choixdifficulte.style.display = "block";
+            window.img_pendu.src = "images/10.png";
+        }
     }
 }
 /****************************************************/
@@ -329,21 +361,21 @@ var Mot = class {
     // motComplet: String
     // motIncomplet: String
     // fichierMots: FichierMots
-    // difficultee: int
+    // difficulte: int
     
     /*
      * Constructeur de la classe Mot
-     * difficultee: Difficultee de la partie, permet de choisir des mots
-     *              rattachés a une certaine difficultee
+     * difficulte: difficulte de la partie, permet de choisir des mots
+     *              rattachés a une certaine difficulte
      */
-    constructor(difficultee) {
-        this.difficultee = difficultee;
-        this.fichierMots = new FichierMots(difficultee);
+    constructor(difficulte) {
+        this.difficulte = difficulte;
+        this.fichierMots = new FichierMots(difficulte);
         this.motComplet = this.fichierMots.motAleatoire();
         this.motIncomplet = '';
         this.cacherLettres();
         
-        console.log("Mot : " + this.motComplet + " Difficultee : " + difficultee);
+        console.log("Mot : " + this.motComplet + " difficulte : " + difficulte);
     }
     
     /*
@@ -411,7 +443,7 @@ var Mot = class {
         var lettreEpargnee;
         var motDecompose = this.motComplet.split('');
         
-        switch (this.difficultee) {
+        switch (this.difficulte) {
             case 0: // facile
                 indice = 0;
                 break;
@@ -443,7 +475,7 @@ var Mot = class {
     
     /*
      * Indique si le mot est complet
-	 * Retour: True si toutes les lettres du mot on etees trouvees
+     * Retour: True si toutes les lettres du mot on etees trouvees
      */
     isFini() {
         return this.motComplet == this.motIncomplet;
@@ -454,39 +486,36 @@ var Mot = class {
 /****************** FichierMots *********************/
 var FichierMots = class {
     // NOMS_FICHIERS: String[]
-    // difficultee: int
+    // difficulte: int
     // xhrFichier: XMLHttpRequest
     
     /*
      * Constructeur de la classe FichierMots
-     * difficultee: Difficultee de la partie, si 0 alors les mots seront pioches
+     * difficulte: difficulte de la partie, si 0 alors les mots seront pioches
      *              dans le fichier mots_facile.txt, etc...
      *              Doit etre dans 0..2
      */
-    constructor(difficultee) {
-        this.NOMS_FICHIERS = ["mots_facile.txt", "mots_moyen.txt", "mots_difficile.txt"];
-        this.difficultee = difficultee;
+    constructor(difficulte) {
+        this.url = SITE_URL;
+        this.difficulte = difficulte;
         
         this.xhrFichier = new XMLHttpRequest();
     }
     
     /*
-     * Renvoie un mot aleatoire depuis le fichier choisi en fonction de la difficultee
+     * Renvoie un mot aleatoire depuis le fichier choisi en fonction de la difficulte
      * Retour: Mot aleatoire
      */
     motAleatoire() {
-        // requete asynchrone
-        this.xhrFichier.open("GET", this.NOMS_FICHIERS[this.difficultee], false);
-        this.xhrFichier.send();
+        // requete synchrone meme si c'est deprecie
+        this.xhrFichier.open("POST", this.url, false);
+        this.xhrFichier.send("type=mot&difficulte=" + this.difficulte);
         
-        if (this.xhrFichier.status == 0 || this.xhrFichier.status == 200) {
-            var lignes = this.xhrFichier.responseText.split('\n');
-            // on renvoie un mot aleatoire parmis ceux contenus dans le fichier
-            return lignes[Math.floor(Math.random() * lignes.length)];
+        if (this.xhrFichier.status == 200) {
+            return this.xhrFichier.responseText;
         } else {
-            // exception ?
             console.log('erreur fichier');
-            return "erreur";
+            return null;
         }
     }
 }
@@ -540,7 +569,7 @@ var Gibet = class {
     
     /*
      * Indique si le gibet est complet
-	 * Retour: True si toutes les parties du gibet sont affichees
+     * Retour: True si toutes les parties du gibet sont affichees
      */
     isFini() {
         return this.nbPartiesAffichees == 10;
@@ -568,3 +597,99 @@ var PartieGibet = class {
     }
 }
 /****************************************************/
+
+/****************** Utilisateur *********************/
+var Utilisateur = class {
+    constructor() {
+        this.pseudo = "";
+        this.motDePasse = "";
+        this.authentifie = false;
+        this.niveau = 0;
+        this.score = 0;
+    }
+    
+    /*
+     * TODO doc
+     */
+    estConnecte() {
+        return this.pseudo != "" && this.motDePasse != "" 
+               && this.authentifie;
+    }
+    
+    /*
+     * TODO doc
+     */
+    setPseudo(pseudo) {
+        this.pseudo = pseudo;
+    }
+    
+    /*
+     * TODO doc
+     */
+    getPseudo() {
+        return this.pseudo;
+    }
+    
+    /*
+     * TODO doc
+     */
+    setMotDePasse(motDePasse) {
+        this.motDePasse = motDePasse;
+    }
+    
+    /*
+     * TODO doc
+     */
+    getMotDePasse() {
+        return this.motDePasse;
+    }
+    
+    /*
+     * TODO doc
+     */
+    setAuthentifie(authentifie) {
+        this.authentifie = authentifie;
+    }
+    
+    /*
+     * TODO doc
+     */
+    getNiveau() {
+        return this.niveau;
+    }
+    
+    /*
+     * TODO doc
+     */
+    setNiveau(niveau) {
+        this.niveau = niveau;
+    }
+    
+    /*
+     * TODO doc
+     */
+    getScore() {
+        return this.score;
+    }
+    
+    /*
+     * TODO doc
+     */
+    setScore(score) {
+        this.score = score;
+    }
+    
+    
+    /*
+     * TODO doc
+     */
+    afficherStats() {
+        if (this.estConnecte()) {
+            window.pseudoUtilisateur.innerHTML = this.getPseudo();
+            window.niveauUtilisateur.innerHTML = "Niv.&nbsp;" + this.getNiveau();
+            window.scoreUtilisateur.innerHTML = this.getScore() + "&nbsp;pts";
+        }
+    }
+}
+/****************************************************/
+var utilisateur = new Utilisateur();
