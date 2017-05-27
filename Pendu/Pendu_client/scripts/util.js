@@ -56,6 +56,24 @@ function show(idFenetre, idWrapper, state){
 
 
 /*
+ * Affiche la fenetre de connexion et donne le focus au champs de saisie du pseudo
+ */
+function afficherConnexion() {
+    show('fenetre_connexion', 'wrap_connexion', 'block');
+    window.pseudo.focus();
+}
+
+
+/*
+ * Affiche la fenetre d'inscription et donne le focus au champs de saisie du pseudo
+ */
+function afficherInscription() {
+    show('fenetre_inscription', 'wrap_inscription', 'block');
+    window.pseudoInscription.focus();
+}
+
+
+/*
  * ui: True si la connection se fait depuis l'interface
  *     sinon false si elle se fait de maniere automatique
  */
@@ -179,6 +197,10 @@ function inscription() {
                         utilisateur.setNiveau(0);
                         utilisateur.setScore(0);
                         
+                        // heureusement que se n'est pas un projet sur la securite des donnees...
+                        sessionStorage.setItem("penduID", utilisateur.getPseudo());
+                        sessionStorage.setItem("penduPASS", utilisateur.getMotDePasse());
+                        
                         window.connexion_inscription.style.display = "none";
                         window.infoUtilisateur.style.display = "block";
                         
@@ -187,7 +209,7 @@ function inscription() {
                         
                         show('fenetre_inscription', 'wrap_inscription', 'none');
                     } else {
-                        window.inscriptionEchouee.innerHTML = "L'inscription n'a pas pu être faite";
+                        window.inscriptionEchouee.innerHTML = "L'inscription n'a pas pu Ãªtre faite";
                         window.inscriptionPass.value = ""
                         window.inscriptionPass2.value = ""
                     }
@@ -198,7 +220,7 @@ function inscription() {
                      + "&pass=" + utilisateur.getMotDePasse());
         } else {
             // probleme mot de passe
-            window.inscriptionEchouee.innerHTML = "Les mots de passe sont différents";
+            window.inscriptionEchouee.innerHTML = "Les mots de passe sont diffÃ©rents";
             window.inscriptionPass.value = ""
             window.inscriptionPass2.value = ""
         }
@@ -230,7 +252,7 @@ function listerHighscores() {
                 }
                 window.listeScores.innerHTML = scoresTable + "</table>";
             } else {
-                window.listeScores.innerHTML = "Problème de récupération du top 10 des joueurs";
+                window.listeScores.innerHTML = "ProblÃ¨me de rÃ©cupÃ©ration du top 10 des joueurs";
             }
             show('fenetre_score', 'wrap_score', 'block');
         }

@@ -39,7 +39,7 @@
                     </tr>
                     <tr>
                         <td class="popupLabel">Mot&nbsp;de&nbsp;Passe&nbsp;:</td>
-                        <td><input type='text' id='pass' required></td>
+                        <td><input type='password' id='pass' required></td>
                     </tr>
                     <tr>
                         <td colspan="2" id="connexionEchouee"></td>
@@ -72,11 +72,11 @@
                 </tr>
                 <tr>
                     <td>Mot&nbsp;de&nbsp;Passe&nbsp;:</td>
-                    <td><input type='text' id="inscriptionPass" placeholder='mini 7 caracteres' required></td>
+                    <td><input type='password' id="inscriptionPass" placeholder='mini 7 caracteres' required></td>
                 </tr>
                 <tr>
                     <td>Confirmation&nbsp;:</td>
-                    <td><input type='text' id="inscriptionPass2" required></td>
+                    <td><input type='password' id="inscriptionPass2" required></td>
                 </tr>
                 <tr>
                     <td colspan="2" id="inscriptionEchouee"></td>
@@ -96,6 +96,7 @@
                     <!-- La fenetre de AIDE-->
         <div id="fenetre_aide">
             <img class="close" onclick="show('fenetre_aide', 'wrap_aide', 'none')" src="images/close.png">
+            <p class="titrePopup">Règles&nbsp;:</p>
             <div id="regles">
                 <p>Il y a des lettres cachées et il faut les trouver.</p>
             </div>
@@ -146,8 +147,8 @@
         </header>
         <nav>
             <ul id="connexion_inscription">
-                <li><div onclick="show('fenetre_connexion', 'wrap_connexion', 'block')" id="btn_Connexion" class="boutons">CONNEXION</div></li>
-                <li><div onclick="show('fenetre_inscription', 'wrap_inscription', 'block')" id="btn_Inscription" class="boutons">INSCRIPTION</div></li>
+                <li><div onclick="afficherConnexion()" id="btn_Connexion" class="boutons">CONNEXION</div></li>
+                <li><div onclick="afficherInscription()" id="btn_Inscription" class="boutons">INSCRIPTION</div></li>
             </ul>
             
             <div id="infoUtilisateur">

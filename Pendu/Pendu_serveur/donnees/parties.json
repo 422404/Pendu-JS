@@ -113,6 +113,24 @@
             "mot": "maremoteur",
             "difficulte": 1,
             "score": 2900
+        },
+        {
+            "idjoueur": 5,
+            "mot": "folatrer",
+            "difficulte": 1,
+            "score": 0
+        },
+        {
+            "idjoueur": 5,
+            "mot": "barbouiller",
+            "difficulte": 1,
+            "score": 0
+        },
+        {
+            "idjoueur": 5,
+            "mot": "decouler",
+            "difficulte": 1,
+            "score": 0
         }
     ]
 }

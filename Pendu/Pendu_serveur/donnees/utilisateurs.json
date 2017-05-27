@@ -1,5 +1,5 @@
 {
-    "dernierId": 4,
+    "dernierId": 5,
     "utilisateurs": [
         {
             "pseudo": "elyan",
@@ -27,6 +27,13 @@
             "pass": "superalex",
             "idjoueur": 4,
             "score": 1500,
+            "niveau": 0
+        },
+        {
+            "pseudo": "shouby",
+            "pass": "cestmoi12",
+            "idjoueur": 5,
+            "score": 0,
             "niveau": 0
         }
     ]
