@@ -1,6 +1,12 @@
 /*
+ * Jeu du pendu en JavaScript
+ * Pierre Romestant, Elyan Poujol, Morgane Tuffery, Aleksandr Vassilyev
+ */
+
+/*
  * si l'utilisateur s'est deja connecte dans cette session du navigateur
- * on le reconnecte
+ * on le reconnecte avec son pseudo et son mot de passe absolument
+ * pas securise...
  */
 function reconnecter() {
     var id = sessionStorage.getItem("penduID");
@@ -12,6 +18,10 @@ function reconnecter() {
 }
 
 
+/*
+ * On supprime son pseudo et son mot de passe du stockage de session
+ * on recharge ensuite la page pour que le changement soit effectif
+ */
 function deconnecter() {
     sessionStorage.removeItem("penduID");
     sessionStorage.removeItem("penduPASS");
@@ -21,8 +31,8 @@ function deconnecter() {
 
 /*
  * Quand on appuie sur entree c'est comme si on appuyait sur le bouton confirmer
- * Quand une saisie est superieure a une lettre, on averti l'utilisateur sur ce
- * qui se passera
+ * Quand le texte saisi est d'une longueur superieure a une lettre, on averti 
+ * l'utilisateur sur ce qui se passera si il gagne ou si il perd
  */
 function keyDownHandler(e) {
     // megastuce/magie noire
@@ -42,16 +52,36 @@ function keyDownHandler(e) {
 
 
 /*
- * Donne le focus sur le champ de saisie
+ * Donne le focus sur le champ de saisie du mot recherche
  */
 function focusSaisie() {
     window.saisie.focus();
 }
 
 
-function show(idFenetre, idWrapper, state){
+/*
+ * Affiche ou cache un popup en modifiant l'affichage de l'element parent de son
+ * contenu
+ * idFenetre: element parent du contenu du popup
+ * ifFond: TODO enlever
+ * etatDisplay: etat de l'affichage du popup, voir l'attribut display en CSS pour
+ *              voir ses valeurs possibles
+ */
+function show(idFenetre, state){
     document.getElementById(idFenetre).style.display = state;           
-    document.getElementById(idWrapper).style.display = state;           
+    window.fondPopup.style.display = state;           
+}
+
+
+/*
+ * ferme les popups
+ */
+function fermerPopup() {
+    show("fenetreScore", "none");
+    show("fenetreConnexion", "none");
+    show("fenetreInscription", "none");
+    show("fenetreAide", "none");
+    show("fenetreNous", "none");
 }
 
 
@@ -59,7 +89,7 @@ function show(idFenetre, idWrapper, state){
  * Affiche la fenetre de connexion et donne le focus au champs de saisie du pseudo
  */
 function afficherConnexion() {
-    show('fenetre_connexion', 'wrap_connexion', 'block');
+    show('fenetreConnexion', 'block');
     window.pseudo.focus();
 }
 
@@ -68,14 +98,17 @@ function afficherConnexion() {
  * Affiche la fenetre d'inscription et donne le focus au champs de saisie du pseudo
  */
 function afficherInscription() {
-    show('fenetre_inscription', 'wrap_inscription', 'block');
-    window.pseudoInscription.focus();
+    show('fenetreInscription', 'block');
+    window.inscriptionPseudo.focus();
 }
 
 
 /*
+ * Authentifie l'utilisateur et affiche son niveau et son score global
  * ui: True si la connection se fait depuis l'interface
  *     sinon false si elle se fait de maniere automatique
+ * id: pseudo de l'utilisateur a specifier si ui == false
+ * pass: mot de passe de l'utilisateur a specifier si ui == false
  */
 function connexion(ui, id, pass) {
     if (ui) {
@@ -103,14 +136,14 @@ function connexion(ui, id, pass) {
                 sessionStorage.setItem("penduID", utilisateur.getPseudo());
                 sessionStorage.setItem("penduPASS", utilisateur.getMotDePasse());
                 
-                window.connexion_inscription.style.display = "none";
+                window.connexionInscription.style.display = "none";
                 window.infoUtilisateur.style.display = "block";
                 
                 // affichage dans le coin superieur droit
                 utilisateur.afficherStats();
                 
                 if (ui) {
-                    show('fenetre_connexion', 'wrap_connexion', 'none');
+                    show('fenetreConnexion', 'none');
                 }
             } else {
                 if (ui) {
@@ -126,6 +159,10 @@ function connexion(ui, id, pass) {
 }
 
 
+/*
+ * S'assure que l'utilisateur est connecte est affiche ces parties jouees
+ * si il en a faite
+ */
 function listerParties() {
     if (utilisateur.estConnecte()){
         var xhr = new XMLHttpRequest();
@@ -142,8 +179,10 @@ function listerParties() {
                         switch (parties[i].difficulte) {
                             case 0: difficulte = "facile";
                                     break;
+                                    
                             case 1: difficulte = "moyen";
                                     break;
+                                    
                             case 2: difficulte = "difficile";
                                     break;
                         }
@@ -157,12 +196,12 @@ function listerParties() {
                                      + "&nbsp;pts</td></tr>";
                     }
                     window.listeParties.innerHTML = partiesTable + "</table>";
-                } else {
-                    console.log("pas ok");
-                    // afficher erreur
+                } else if (xhr.status == 400) {
                     window.listeParties.innerHTML = "Vous n'avez fait aucunes parties";
+                } else {
+                    window.listeParties.innerHTML = "Erreur du serveur";
                 }
-                show('fenetreListeParties', 'wrapListeParties', 'block');
+                show('fenetreListeParties', 'block');
             }
         }
         
@@ -176,10 +215,15 @@ function listerParties() {
 }
 
 
+/*
+ * S'assure que les informations necessaires a l'inscription de l'utilisateur
+ * respectent le format voulu (pseudo >= 3 lettres et mot de passe >= 7 lettres)
+ * et demande son inscription dans les comptes côte serveur
+ * Si l'inscription a ete reussie on connecte l'utilisateur
+ */
 function inscription() {
     if (window.inscriptionPseudo.value.length >= 3
-        && window.inscriptionPass.value.length >= 7
-        && window.inscriptionPass2.value.length >= 7) {
+        && window.inscriptionPass.value.length >= 7) {
     
         if (window.inscriptionPass.value == window.inscriptionPass2.value) {
     
@@ -201,17 +245,28 @@ function inscription() {
                         sessionStorage.setItem("penduID", utilisateur.getPseudo());
                         sessionStorage.setItem("penduPASS", utilisateur.getMotDePasse());
                         
-                        window.connexion_inscription.style.display = "none";
+                        window.connexionInscription.style.display = "none";
                         window.infoUtilisateur.style.display = "block";
                         
                         // affichage dans le coin superieur droit
                         utilisateur.afficherStats();
                         
-                        show('fenetre_inscription', 'wrap_inscription', 'none');
+                        show('fenetreInscription', 'none');
                     } else {
-                        window.inscriptionEchouee.innerHTML = "L'inscription n'a pas pu être faite";
-                        window.inscriptionPass.value = ""
-                        window.inscriptionPass2.value = ""
+                        switch (xhr.status) {
+                            case 481: // deja traite par le js
+                                window.inscriptionEchouee.innerHTML = "Veuillez respecter le format des champs";
+                                break;
+                                
+                            case 500:
+                                window.inscriptionEchouee.innerHTML = "Erreur du serveur";
+                                break;
+                                
+                            case 480:
+                                window.inscriptionEchouee.innerHTML = "Pseudo déja utilisé";
+                        }   
+                        window.inscriptionPass.value = "";
+                        window.inscriptionPass2.value = "";
                     }
                 }
             };
@@ -221,18 +276,21 @@ function inscription() {
         } else {
             // probleme mot de passe
             window.inscriptionEchouee.innerHTML = "Les mots de passe sont différents";
-            window.inscriptionPass.value = ""
-            window.inscriptionPass2.value = ""
+            window.inscriptionPass.value = "";
+            window.inscriptionPass2.value = "";
         }
     } else {
         // probleme champs
         window.inscriptionEchouee.innerHTML = "Veuillez respecter le format des champs";
-        window.inscriptionPass.value = ""
-        window.inscriptionPass2.value = ""
+        window.inscriptionPass.value = "";
+        window.inscriptionPass2.value = "";
     }
 }
 
 
+/*
+ * Liste les 10 meilleurs joueurs suivant leur score global
+ */
 function listerHighscores() {
     var xhr = new XMLHttpRequest();
     
@@ -254,7 +312,7 @@ function listerHighscores() {
             } else {
                 window.listeScores.innerHTML = "Problème de récupération du top 10 des joueurs";
             }
-            show('fenetre_score', 'wrap_score', 'block');
+            show('fenetreScore', 'block');
         }
     }
     xhr.send("type=highscores");

@@ -1,3 +1,8 @@
+/*
+ * Jeu du pendu en JavaScript
+ * Pierre Romestant, Elyan Poujol, Morgane Tuffery, Aleksandr Vassilyev
+ */
+
 "use strict";
 
 class Scores {
@@ -7,7 +12,13 @@ class Scores {
     }
     
     /*
-     * TODO doc
+     * Renvoie les n comptes aux scores globaux les plus eleves
+     * nombre: nombre de comptes à renvoyer
+     * callback:
+     *     fonction de callback ayant pour parametres:
+     *         err: true si une erreur est survenue
+     *         highscore: tableau contenant des objets de la forme suivante
+     *                    {"pseudo" : "valeurPseudo", "score" : "valeurScore"}
      */
     getHighscoresGlobaux(nombre, callback) {
         var highscores = [];
@@ -40,7 +51,16 @@ class Scores {
     }
     
     /*
-     * TODO doc
+     * Renvoie l'historique des parties faites par l'utilisateur
+     * idjoueur: id du joueur pour qui recuperer l'historique
+     * callback:
+     *     fonction de callback ayant pour parametres:
+     *         err: 0 si aucunes erreurs
+     *              1 si aucunes parties de jouees
+     *              2 si le fichier contenants les parties jouees ne peut pas être lu
+     *         listeScores: tableau d'objets de la forme suivante
+     *                      {"mot" : "valeurMot", "difficulte" : valeurDifficulte,
+     *                       "score" : valeurScore}
      */
     getScoresParties(idjoueur, callback) {
         jsonfile.readFile(this.fichierScores, function(err, obj) {
@@ -71,12 +91,21 @@ class Scores {
     }
     
     /*
-     * TODO doc
+     * Ajoute une partie jouees dans le fichier contenant l'ensemble des parties
+     * jouees
+     * compte: objet compte tire du fichier contenant les comptes
+     * mot: mot qui a ete recherche
+     * score: score obtenu à la recherche du mot
+     * callback:
+     *     fonction de callback ayant pour parametre:
+     *         err: 0 si aucune erreur n'est survenue
+     *              1 si il y a un probleme avec les parametres
+     *              2 si un probleme survient au niveau de la lecture/ecriture
      */
     addScore(compte, mot, difficulte, score, callback) {
         if (mot == "" || difficulte < 0 || difficulte > 2 || score < 0) {
             console.log("[!] erreur parametres");
-            callback(true);
+            callback(1);
         } else {
             var _this = this;
             
@@ -84,7 +113,7 @@ class Scores {
                 if (err) {
                     // si une erreur a lieu on met le parametre err de la fonction
                     // de callback a true
-                    callback(true);
+                    callback(2);
                 } else {
                     obj.parties.push({"idjoueur" : compte.idjoueur, 
                                       "mot" : mot, 
@@ -100,7 +129,7 @@ class Scores {
                                 // attention obj est une nouvelle variable, la precedente est occultee
                                 if (err) {
                                     console.log("[!] erreur lecture json (comptes)");
-                                    callback(true);
+                                    callback(2);
                                 } else {
                                     // chercher la ligne concernant l'utilisateur
                                     for (var i = 0; i < obj.utilisateurs.length; i++) {
@@ -113,10 +142,10 @@ class Scores {
                                     jsonfile.writeFile(_this.fichierUtilisateurs, obj, function(err) {
                                         if (err) {
                                             console.log("[!] erreur ecriture json (comptes)");
-                                            callback(true);
+                                            callback(2);
                                         } else {
                                             // tout c'est bien deroule
-                                            callback(false);
+                                            callback(0);
                                         }
                                     });
                                 }

@@ -1,3 +1,8 @@
+/*
+ * Jeu du pendu en JavaScript
+ * Pierre Romestant, Elyan Poujol, Morgane Tuffery, Aleksandr Vassilyev
+ */
+
 "use strict";
 
 class Connexion {
@@ -8,8 +13,17 @@ class Connexion {
     }
     
     /*
-     * TODO doc
-     * 
+     * Cherche si l'utilisateur est deja inscrit avec le pseudo et le mot de passe
+     * fourni
+     * Si l'utilisateur existe alors les informations de son comptes sont renvoyees
+     * callback:
+     *     fonction de callback ayant pour parametres:
+     *         err: true si une erreur est survenue sinon false
+     *         utilisateur: informations sur l'utilisateur, stockee dans le fichiers
+     *                      des comptes. C'est un objet de la forme suivante
+     *                      {"pseudo": "valeurPseudo", "pass": "valeurPass",
+     *                       "idjoueur": valeurId, "score": valeurScore,
+     *                       "niveau": valeurNiveau}
      */
     authentifier(callback) {
         var _this = this;
@@ -19,6 +33,7 @@ class Connexion {
             
             if (err) {
                 console.log("[!] erreur json");
+                callback(true, null);
             } else {
                 // recherche du compte
                 for (var i = 0; i < obj.utilisateurs.length; i++) {
@@ -40,6 +55,7 @@ class Connexion {
         });
     }
 }
+
 
 var jsonfile = require('jsonfile');
 module.exports = Connexion;

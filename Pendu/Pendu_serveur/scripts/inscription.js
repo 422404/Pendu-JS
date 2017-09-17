@@ -1,3 +1,8 @@
+/*
+ * Jeu du pendu en JavaScript
+ * Pierre Romestant, Elyan Poujol, Morgane Tuffery, Aleksandr Vassilyev
+ */
+
 "use strict";
 
 class Inscription {
@@ -8,7 +13,14 @@ class Inscription {
     }
     
     /*
-     * TODO doc
+     * Inscrit l'utilisateur si le format de son pseudo et son mot de passe
+     * est correct
+     * callback:
+     *    fonction de callback ayant pour parametre:
+     *        err: 0 si aucune erreur n'est survenue
+     *             1 si le pseudo ou le mot de passe ne respectent pas le format
+     *             2 si erreur de lecture/ecriture du fichier des comptes
+     *             3 si le pseudo est deja utilise
      */
     inscrire(callback) {
         var _this = this;
@@ -17,15 +29,13 @@ class Inscription {
         // pseudo: >= 3 caracteres
         // mot de passe: >= 7 carateres
         if (this.pseudo.length < 3 || this.motDePasse.length < 7) {
-            console.log("[!] erreur format pseudo ou pass");
             // on met le parametre err a true
-            callback(true);
+            callback(1);
         } else {
             jsonfile.readFile(this.fichierUtilisateurs, function(err, obj) {
                 if (err) {
-                    console.log("[!] erreur lecture comptes");
                     // on met le parametre err a true
-                    callback(true);
+                    callback(2);
                 } else {
                     var dejaExistant = false;
                     
@@ -37,9 +47,8 @@ class Inscription {
                     }
                     
                     if (dejaExistant) {
-                        console.log("[!] pseudo deja utilise");
                         // on met le parametre err a true
-                        callback(true);
+                        callback(3);
                     } else {
                         // si le pseudo n'est pas utilise
                         obj.utilisateurs.push({"pseudo": _this.pseudo,
@@ -49,12 +58,11 @@ class Inscription {
                                                "niveau": 0});
                         jsonfile.writeFile(_this.fichierUtilisateurs, obj, function(err) {
                             if (err) {
-                                console.log("[!] erreur ecriture comptes");
                                 // on met le parametre err a true
-                                callback(true);
+                                callback(2);
                             } else {
                                 // on a un nouvel inscrit !
-                                callback(false);
+                                callback(0);
                             }
                         });
                     }

@@ -1,0 +1,1 @@
+Outil de création des fichiers contenant les mots tirés aléatoirement lors d'une partie. Les mots sont triés suivant leur difficultée et répartit dans trois fichiers.

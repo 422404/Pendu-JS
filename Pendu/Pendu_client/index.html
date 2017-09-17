@@ -1,5 +1,11 @@
 <!DOCTYPE html>
-<html>
+
+<!-- 
+     Jeu du pendu en JavaScript
+     Pierre Romestant, Elyan Poujol, Morgane Tuffery, Aleksandr Vassilyev
+-->
+
+<html lang="fr">
     <head>  
         <meta charset="utf-8">
         <title>Pendu En Ligne</title>
@@ -9,58 +15,37 @@
     </head>
     
     <body onload="reconnecter()">
-        <div onclick="show('fenetre_score', 'wrap_score', 'none')" id="wrap_score"></div>
-            <center>
-                <!-- La fenetre de score -->
-                <div id="fenetre_score">
-
-                    <img class="close" onclick="show('fenetre_score', 'wrap_score', 'none')" src="images/close.png">
-                    <p class="titrePopup">TOP 10&nbsp;:</p>
-                    <div id="listeScores"></div>
-                <div onclick="show('fenetre_score', 'wrap_score', 'none')" class="btn_Quitter boutons">Quitter</div>
-            </center>
-                
-        </div>      
-                    
+        <div onclick="fermerPopup()" id="fondPopup"></div>
         
-        <!-- Le font arrier de CONNEXION -->
-        <div onclick="show('fenetre_connexion', 'wrap_connexion', 'none')" id="wrap_connexion"></div>
-        <!-- La fenetre de de connexion -->
-        <div id="fenetre_connexion">
-            <center>
-                <img id="close" onclick="show('fenetre_connexion', 'wrap_connexion', 'none')" src="images/close.png"> 
-                <table class="pop_up">
-                    <tr>
-                        <td colspan="2" class="titrePopup">CONNEXION</td>
-                    </tr>
-                    <tr>
-                        <td class ="popupLabel">Pseudo&nbsp;:</td>
-                        <td><input type='text' id='pseudo' required></td>
-                    </tr>
-                    <tr>
-                        <td class="popupLabel">Mot&nbsp;de&nbsp;Passe&nbsp;:</td>
-                        <td><input type='password' id='pass' required></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" id="connexionEchouee"></td>
-                    </tr>
-                </table>            
-                <!-- Le button de sortie -->
-                <div onclick="connexion(true)" class="btn_Entree boutons">Se connecter</div>
-                <div onclick="show('fenetre_connexion', 'wrap_connexion', 'none')" class="btn_Quitter boutons">Annuler</div>            
-            </center>
+        <!-- Les fenêtres principales -->       
+        <!-- La fenêtre de connexion -->
+        <div id="fenetreConnexion" class="fenetrePrincipale">
+            <img id="close" onclick="show('fenetreConnexion', 'none')" src="images/close.png" alt="Croix fermeture de la fenêtre"> 
+            <table class="pop_up">
+                <tr>
+                    <td colspan="2" class="titrePopup">CONNEXION</td>
+                </tr>
+                <tr>
+                    <td class ="popupLabel">Pseudo&nbsp;:</td>
+                    <td><input type='text' id='pseudo' required></td>
+                </tr>
+                <tr>
+                    <td class="popupLabel">Mot&nbsp;de&nbsp;Passe&nbsp;:</td>
+                    <td><input type='password' id='pass' required></td>
+                </tr>
+                <tr>
+                    <td colspan="2" id="connexionEchouee" class="echouee"></td>
+                </tr>
+            </table>            
+                <!-- Le bouton de sortie -->  
+                <div onclick="show('fenetreConnexion', 'none')" id="btnAnnConn" class="boutons">Annuler</div>       
+                <div onclick="connexion(true)" id="btnConn" class="boutons">Se connecter</div>                  
         </div>  
     
     
-        <!-- Le font arrier INSCRIPTION -->
-        <div onclick="show('fenetre_inscription', 'wrap_inscription', 'none')" id="wrap_inscription"></div>
-
-                <!-- La fenetre de de connexion -->
-        <div id="fenetre_inscription">
-            <center>
-            <img class="close" onclick="show('fenetre_inscription', 'wrap_inscription', 'none')" src="images/close.png">
-            
-                          <!-- Completer l'information necessaire -->
+        <!-- La fenêtre d'inscription -->
+        <div id="fenetreInscription" class="fenetrePrincipale">
+            <img class="close" onclick="show('fenetreInscription', 'none')" src="images/close.png" alt="Croix fermeture de la fenêtre">
             <table class="pop_up">  
                 <tr>
                     <td colspan="2" class="titrePopup">INSCRIPTION</td>
@@ -79,66 +64,90 @@
                     <td><input type='password' id="inscriptionPass2" required></td>
                 </tr>
                 <tr>
-                    <td colspan="2" id="inscriptionEchouee"></td>
+                    <td colspan="2" id="inscriptionEchouee" class="echouee"></td>
                 </tr>
             </table>
             
-             <!-- Le button de sortie -->
-            <div onclick="show('fenetre_inscription', 'wrap_inscription', 'none')" id="btn_Quitter_Inscription" class="boutons">Annuler</div>
-            <div onclick="inscription()" id="btn_Enregistrer" class="boutons">S'inscrire</div>
-            </center>   
+            <!-- Le bouton de sortie -->
+            <div onclick="show('fenetreInscription', 'none')" id="btnQuitterInscription" class="boutons">Annuler</div>
+            <div onclick="inscription()" id="btnEnregistrer" class="boutons">S'inscrire</div> 
         </div>
         
         
-        <!-- Le font arrier de AIDE-->
-        <div onclick="show('fenetre_aide', 'wrap_aide', 'none')" id="wrap_aide"></div>
-
-                    <!-- La fenetre de AIDE-->
-        <div id="fenetre_aide">
-            <img class="close" onclick="show('fenetre_aide', 'wrap_aide', 'none')" src="images/close.png">
+        <!-- Les fenêtres particulières -->
+        <!-- La fenêtre d'aide -->
+        <div id="fenetreAide" class="fenetreParticuliere">
+            <img class="close" onclick="show('fenetreAide', 'none')" src="images/close.png" alt="Croix fermeture de la fenêtre">
             <p class="titrePopup">Règles&nbsp;:</p>
-            <div id="regles">
-                <p>Il y a des lettres cachées et il faut les trouver.</p>
+            <div id="regles" class="listes">
+                <p>Le jeu présenté içi est le jeu du Pendu.
+                   Les règles sont les mêmes malgré les differentes difficultées proposées :<br>
+                    <ul>
+                        <li>Trouver le mot à deviner.</li>
+                        <li>Si vous faîtes trop d'erreurs vous perdez.</li>
+                        <li>Si vous saisissez plus d'une lettre cela est directement considéré comme une proposition de mot,
+                        si vous le trouvez vous gagnez, sinon vous n'avez pas le droit à une autre chance et vous perdez.</li>
+                    </ul>
+                    Le jeu comporte un système de score, vous pouvez créer un compte pour pouvoir le sauvegarder et l'augmenter pour 
+                    gagner des niveaux. Il y a d'ailleur un top 10 des comptes les mieux classés.
+                    
+                    Au début d'une partie le joueur peut choisir entre 3 niveaux de difficultés : 
+                    <ul>
+                        <li>Facile : 10 erreurs possibles, la première lettre du mot est donnée, les lettres déjà jouées sont affichées et 
+                            les rejouer ne compte pas pour erreur.</li>
+                        <li>Moyen : 5 erreurs possibles, une lettre au positionnement aléatoire dans le mot est donnée, les lettres déjà jouées
+                            sont affichées mais les rejouer provoque une erreur.</li>
+                        <li>Difficile : 3 erreurs possibles, aucune lettre n'est donnée. Les lettres déjà jouées ne sont pas affichées et les rejouer
+                            provoque une erreur.</li>                               
+                    </ul>
+                </p>
             </div>
-            <div onclick="show('fenetre_aide', 'wrap_aide', 'none')" class="btn_Quitter boutons">Quitter</div>
+            <div onclick="show('fenetreAide', 'none')" class="boutons btnQuitterNous">Quitter</div>
         </div>
         
         
-        <!-- Le font arrier de QUI SOMMES NOUS-->
-        <div onclick="show('fenetre_nous', 'wrap_nous', 'none')" id="wrap_nous"></div>
-
-                    <!-- La fenetre de QUI SOMMES NOUS-->
-            <div id="fenetre_nous">
-            <img class="close" onclick="show('fenetre_nous', 'wrap_nous', 'none')" src="images/close.png">
+      <!-- La fenêtre de "Qui sommes nous" -->
+        <div id="fenetreNous" class="fenetreParticuliere">
+            <img class="close" onclick="show('fenetreNous', 'none')" src="images/close.png" alt="Croix fermeture de la fenêtre">
             <p class="titrePopup">Qui sommes nous ?</p>
-            <div id="quiSommesNous">
+            <div id="quiSommesNous" class="listes">
                 <p>Nous sommes des étudiants du DUT Informatique de l'<a href="http://www.iut-rodez.fr/">IUT de Rodez</a>.
                    <br>
                    Ce site est l'objet d'un projet de programmation d'un pendu en JavaScript.
                    <br>
                    Le projet inclut la programmation du jeu côté client mais aussi d'un serveur
-                   sous Node.JS</p>
+                   sous Node.JS
+                </p>
                 <p>Membres du projet&nbsp;:</p>
                 <ul>
-                    <ul>Elyan Poujol</ul>
-                    <ul>Pierre Romestant</ul>
-                    <ul>Morgane Tuffery</ul>
-                    <ul>Aleksandr Vassilyev</ul>
+                    <li>Elyan Poujol</li>
+                    <li>Pierre Romestant</li>
+                    <li>Morgane Tuffery</li>
+                    <li>Aleksandr Vassilyev</li>
                 </ul>
             </div>
-            <div onclick="show('fenetre_nous', 'wrap_nous', 'none')" class="btn_Quitter boutons">Quitter</div>       
+            <!-- Le button de sortie -->
+            <div onclick="show('fenetreNous', 'none')" class="boutons btnQuitterNous">Quitter</div>       
         </div>
         
+                <!-- La fenêtre de highscores -->
+        <div id="fenetreScore" class="fenetreParticuliere">
+            <img class="close" onclick="show('fenetreScore', 'none')" src="images/close.png" alt="Croix fermeture de la fenêtre">
+            <p class="titrePopup">TOP 10&nbsp;:</p>
+            <div id="listeScores" class="listes"></div>
+            <!-- Le bouton de sortie -->    
+            <div onclick="show('fenetreScore', 'none')" class="boutons btnQuitterSimple">Quitter</div>    
+        </div>   
         
-        <!-- fenetre ou sont listes les precedentes parties de l'utilisateur -->
-        <div onclick="show('fenetreListeParties', 'wrapListeParties', 'none')" id="wrapListeParties"></div>
-        <div id="fenetreListeParties">
-            <center>
-                <img class="close" onclick="show('fenetreListeParties', 'wrapListeParties', 'none')" src="images/close.png">
+        
+        <!-- fenêtre où sont listes les précedentes parties de l'utilisateur -->
+        <div id="fenetreListeParties" class="fenetreParticuliere">
+            <div id="wrapListePartie">   
+               <img class="close" onclick="show('fenetreListeParties', 'none')" src="images/close.png" alt="Croix fermeture de la fenêtre">
                 <p class="titrePopup">Vos parties&nbsp;:</p>
-                <div id="listeParties"></div>
-                <div onclick="show('fenetreListeParties', 'wrapListeParties', 'none')" id="btn_Quitter" class="boutons">FERMER</div>
-            </center>
+                <div id="listeParties" class="listes"></div>
+                <div onclick="show('fenetreListeParties', 'none')" class="boutons btnQuitterSimple">FERMER</div>
+            </div>
         </div>
         
     
@@ -146,9 +155,9 @@
             <a href='index.html'><img src="images/logo.png" alt="photo de logo" id="img_logo"/></a>
         </header>
         <nav>
-            <ul id="connexion_inscription">
-                <li><div onclick="afficherConnexion()" id="btn_Connexion" class="boutons">CONNEXION</div></li>
-                <li><div onclick="afficherInscription()" id="btn_Inscription" class="boutons">INSCRIPTION</div></li>
+            <ul id="connexionInscription">
+                <li onclick="afficherConnexion()" id="btnConnexion" class="boutons">CONNEXION</li>
+                <li onclick="afficherInscription()" id="btnInscription" class="boutons">INSCRIPTION</li>
             </ul>
             
             <div id="infoUtilisateur">
@@ -170,16 +179,16 @@
 
         <section>
             <aside>
-                <img src="images/10.png" alt="photo de pendu" id="img_pendu"/>
+                <img src="images/10.png" alt="photo de pendu" id="img_pendu" />
             </aside>
             
             <article id="controles">  
                 <div id="choixdifficulte">
-                    <div tabindex="1" onclick="jeu.lancerPartie(0)" class="niveau boutons">Facile</div>
-                    <div tabindex="2" onclick="jeu.lancerPartie(1)" class="niveau boutons">Moyen</div>
-                    <div tabindex="3" onclick="jeu.lancerPartie(2)" class="niveau boutons">Difficile</div>
-                        </br>
-                    <div tabindex="2" onclick="listerHighscores()" id="btn_Scores" class="boutons">Top 10</div>
+                    <div tabindex="1" onclick="jeu.lancerPartie(0)" class="difficulte boutons">Facile</div>
+                    <div tabindex="2" onclick="jeu.lancerPartie(1)" class="difficulte boutons">Moyen</div>
+                    <div tabindex="3" onclick="jeu.lancerPartie(2)" class="difficulte boutons">Difficile</div>
+                        <br>
+                    <div tabindex="2" onclick="listerHighscores()" id="btnScores" class="boutons">Top 10</div>
                 </div>
                 
                 <div id="controlesJeux">
@@ -212,14 +221,11 @@
             </article>
         </section>
         
-        <ul id="aide">
-            <!-- modifier -->
-            <li onclick="show('fenetre_aide', 'wrap_aide', 'block')" id="btn_Aide" class="boutons">Aide ?</li>
-        </ul>
-        
         <footer>
-            <!-- modifier -->
-            <p onclick="show('fenetre_nous', 'wrap_nous', 'block')" id="btn_Nous" class="boutons">Qui sommes nous ?</p>
+           <!-- Le bouton "Aide" -->
+            <div onclick="show('fenetreAide', 'block')" id="btnAide" class="boutons">Aide ?</div>
+           <!-- Le bouton "Qui sommes nous" -->
+            <div onclick="show('fenetreNous', 'block')" id="btnNous" class="boutons">Qui sommes nous ?</div>
         </footer>
     </body>
 </html>

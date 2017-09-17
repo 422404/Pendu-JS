@@ -1,6 +1,11 @@
-var difficulte_FACILE = 0;
-var difficulte_MOYEN = 1;
-var difficulte_DIFFICILE = 2;
+/*
+ * Jeu du pendu en JavaScript
+ * Pierre Romestant, Elyan Poujol, Morgane Tuffery, Aleksandr Vassilyev
+ */
+
+var DIFFICULTE_FACILE = 0;
+var DIFFICULTE_MOYEN = 1;
+var DIFFICULTE_DIFFICILE = 2;
 
 var SITE_URL = "http://localhost:8080/";
 
@@ -70,12 +75,12 @@ var JeuPendu = class {
             
             // si la lettre ne figure pas dans le mot
             if (occ == 0) {
-                if (jeu.getPartieCourante().getDifficulte() == difficulte_FACILE
+                if (jeu.getPartieCourante().getDifficulte() == DIFFICULTE_FACILE
                     && !lettreJouee) {
                     jeu.getPartieCourante().getGibet().ajouterPartie(1);
-                } else if (jeu.getPartieCourante().getDifficulte() == difficulte_MOYEN) {
+                } else if (jeu.getPartieCourante().getDifficulte() == DIFFICULTE_MOYEN) {
                     jeu.getPartieCourante().getGibet().ajouterPartie(2);
-                } else if (jeu.getPartieCourante().getDifficulte() == difficulte_DIFFICILE) {
+                } else if (jeu.getPartieCourante().getDifficulte() == DIFFICULTE_DIFFICILE) {
                     jeu.getPartieCourante().getGibet().ajouterPartie(4);
                 }
             }
@@ -177,7 +182,7 @@ var Partie = class {
      */
     ajouterLettresJouees(lettre) {
         this.lettresJouees.push(lettre);
-        if (this.difficulte != difficulte_DIFFICILE) {
+        if (this.difficulte != DIFFICULTE_DIFFICILE) {
             window.conteneurLettresJouees.innerHTML += lettre + "  ";
         }
     }
@@ -254,15 +259,15 @@ var Partie = class {
         var suffixe = "";
         
         switch (this.difficulte) {
-            case difficulte_FACILE:
+            case DIFFICULTE_FACILE:
                 erreurs = this.gibet.getNbPartiesAffichees();
                 suffixe = "10";
                 break;
-            case difficulte_MOYEN:
+            case DIFFICULTE_MOYEN:
                 erreurs = this.gibet.getNbPartiesAffichees() / 2;
                 suffixe = "5";
                 break;
-            case difficulte_DIFFICILE:
+            case DIFFICULTE_DIFFICILE:
                 erreurs = Math.ceil(this.gibet.getNbPartiesAffichees() / 4);
                 suffixe = "3";
         }
@@ -329,7 +334,7 @@ var Partie = class {
                     utilisateur.setNiveau(niveau);
                     utilisateur.setScore(scoreGlobal);
                     utilisateur.afficherStats();
-                } // TODO ...
+                }
             };
             
             xhr.send("type=compte&id=" + utilisateur.getPseudo() 
@@ -338,7 +343,7 @@ var Partie = class {
                      + jeu.getPartieCourante().getMot().toString(true)
                      + "&difficulte=" + jeu.getPartieCourante().getDifficulte()
                      + "&score=" + jeu.getPartieCourante().getScore());
-        } // TODO ...
+        }
         
         window.rejouer.onclick = function() {
             eval("jeu = new JeuPendu();"
@@ -504,6 +509,7 @@ var FichierMots = class {
     
     /*
      * Renvoie un mot aleatoire depuis le fichier choisi en fonction de la difficulte
+     * Le fichier est stocke côte serveur
      * Retour: Mot aleatoire
      */
     motAleatoire() {
@@ -609,7 +615,8 @@ var Utilisateur = class {
     }
     
     /*
-     * TODO doc
+     * Renvoie true si l'utilisateur est authentifie sinon false
+     * Retour: true si l'utilisateur est authentifie sinon false...
      */
     estConnecte() {
         return this.pseudo != "" && this.motDePasse != "" 
@@ -617,63 +624,72 @@ var Utilisateur = class {
     }
     
     /*
-     * TODO doc
+     * Setter de l'attribut pseudo
+     * pseudo: nouveau pseudo
      */
     setPseudo(pseudo) {
         this.pseudo = pseudo;
     }
     
     /*
-     * TODO doc
+     * Renvoie pseudo de l'utilisateur
+     * Retour: pseudo de l'utilisateur
      */
     getPseudo() {
         return this.pseudo;
     }
     
     /*
-     * TODO doc
+     * Setter de l'attribut motDePasse
+     * motDePasse: nouveau mot de passe
      */
     setMotDePasse(motDePasse) {
         this.motDePasse = motDePasse;
     }
     
     /*
-     * TODO doc
+     * Renvoie le mot de passe de l'utilisateur
+     * Retour: le mot de passe de l'utilisateur
      */
     getMotDePasse() {
         return this.motDePasse;
     }
     
     /*
-     * TODO doc
+     * Permet d'indiquer que l'utilisateur est authentifie
+     * authenfie: true si l'utilisateur est authentifie sinon false
      */
     setAuthentifie(authentifie) {
         this.authentifie = authentifie;
     }
     
     /*
-     * TODO doc
+     * Renvoie le niveau de l'utilisateur
+     * Retour: le niveau de l'utilisateur
      */
     getNiveau() {
         return this.niveau;
     }
     
     /*
-     * TODO doc
+     * Setter de l'attribut niveau
+     * niveau: nouveau niveau
      */
     setNiveau(niveau) {
         this.niveau = niveau;
     }
     
     /*
-     * TODO doc
+     * Renvoie le score de l'utilisateur
+     * Retour: le score de l'utilisateur
      */
     getScore() {
         return this.score;
     }
     
     /*
-     * TODO doc
+     * Setter de l'attribut score
+     * score: nouveau score
      */
     setScore(score) {
         this.score = score;
@@ -681,7 +697,8 @@ var Utilisateur = class {
     
     
     /*
-     * TODO doc
+     * Affiche le pseudo, le niveau et le score de l'utilisateur dans la zone
+     * superieure droite si l'utilisateur est authentifie
      */
     afficherStats() {
         if (this.estConnecte()) {

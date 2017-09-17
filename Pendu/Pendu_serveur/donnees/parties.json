@@ -115,22 +115,40 @@
             "score": 2900
         },
         {
-            "idjoueur": 5,
-            "mot": "folatrer",
+            "idjoueur": 4,
+            "mot": "decapsuleur",
             "difficulte": 1,
             "score": 0
         },
         {
-            "idjoueur": 5,
-            "mot": "barbouiller",
-            "difficulte": 1,
+            "idjoueur": 4,
+            "mot": "transgresser",
+            "difficulte": 2,
             "score": 0
         },
         {
-            "idjoueur": 5,
-            "mot": "decouler",
-            "difficulte": 1,
+            "idjoueur": 4,
+            "mot": "soubresauter",
+            "difficulte": 2,
+            "score": 10000
+        },
+        {
+            "idjoueur": 4,
+            "mot": "biseaux",
+            "difficulte": 0,
             "score": 0
+        },
+        {
+            "idjoueur": 4,
+            "mot": "courtiser",
+            "difficulte": 1,
+            "score": 2800
+        },
+        {
+            "idjoueur": 8,
+            "mot": "damoiseaux",
+            "difficulte": 1,
+            "score": 2900
         }
     ]
 }

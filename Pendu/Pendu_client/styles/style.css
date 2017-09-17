@@ -1,3 +1,12 @@
+/*
+ * Jeu du pendu en JavaScript
+ * Pierre Romestant, Elyan Poujol, Morgane Tuffery, Aleksandr Vassilyev
+ */
+
+/*
+ * Mise en page principale du site
+ * 
+ */
 @font-face {
     font-family: "LemonYellowSun";
     src: url('DK Lemon Yellow Sun.otf');
@@ -11,7 +20,9 @@
 body {
     background-image : url('../images/background.png');
     font-family: "LemonYellowSun", Helvetica, Arial, sans-serif;
-    font-size: 25px; 
+    font-size: 25px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 header {
@@ -24,6 +35,12 @@ header a{
     text-decoration: none;
     color: black;
     cursor: pointer;
+}
+
+#img_logo {
+     width: 430px;
+     height: 103px;
+     background-color: rgba(255, 255, 255, 0.3);
 }
 
 #img_pendu {
@@ -62,18 +79,37 @@ article {
 }
 
 footer {
-    text-align: center;
     position: fixed;
     bottom : 30px;
     left : 20px;
 }
+
+p {
+    font-size: 25px;
+}
+
+
+fieldset {
+    padding: 0;
+    margin: 0;
+    margin: 15px 0;
+    border: none;
+}
+
+option {
+    width: 60px;
+}
+
+
+/*
+ * Mise en page des boutons
+ */
 
 .boutons {
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
     border: 1px solid black;
     border-radius: 5px;
     display: inline-block;
-    /*vertical-align: middle;*/
     cursor: pointer;
     background-color: white;
     padding: 3px;
@@ -89,23 +125,61 @@ footer {
     background-color: #DDDDDD;
 }
 
-.niveau {
-    height: 50px;
+#btnScores {
     width: 75px;
-    margin: 20px;
-    padding-top: 15px;
-    padding-bottom: 0px;
-    
 }
+
+#btnAide {
+    list-style:none;
+    font-size: 27px;
+    position: fixed;
+    bottom : 30px;
+    right : 20px;
+    height: 30px;
+}
+
+#btnNous{
+    font-size: 27px;
+    height: 30px;
+}
+
 
 #confirmation {
     display: inline;
     text-align: right;
 }
 
-#btn_Scores {
-    width: 75px;
+
+#btnQuitterInscription {
+    padding: 2px 15px;
+    position: absolute;
+    bottom: 10px;  
+    left: 110px;    
+}   
+
+
+#btnEnregistrer{
+    position: absolute;
+    bottom: 10px; 
+    right: 100px;
 }
+
+.btnQuitterNous {
+    position: absolute;
+    bottom: 10px; 
+    right: 30px; 
+}
+
+/* Boutons des diffcultés à choisir */
+.difficulte {
+    height: 50px;
+    width: 75px;
+    margin: 20px;
+    padding-top: 15px;
+    padding-bottom: 0px;
+}
+
+
 
 #controlesJeux {
     display: none;
@@ -117,23 +191,7 @@ footer {
     border-color: black;
 }
 
-#aide {
-    list-style:none;
-    /*margin-right: 15px;
-    position: absolute;
-    right: 10px;
-    border-radius:5px;*/
-    font-size: 27px;
-    /*padding-left: 15px;*/
-    text-align: center;
-    position: fixed;
-    bottom : 30px;
-    right : 20px;
-}
 
-#aide li {
-    display: inline-block;
-}
 
 #saisie {
     position: relative;
@@ -145,9 +203,6 @@ footer {
     font-size: 20px;
 }
 
-#conteneurMot {
-    margin-top: 0px;
-}
 
 #controles {
     position :absolute;
@@ -155,26 +210,21 @@ footer {
     min-width: 400px;
 }
 
-#img_logo {
-     width: 190px;
-     height: 60px;
-     margin: 20px;
-     background-color: rgba(255, 255, 255, 0.3);
-}
+/*
+ * CSS Pendant le jeu
+ */
 
 #rejouer {
     display: none;
-    /*position :relative;
-    left : 50px;
-    top: -190px;*/
 }
 
 #difficultee {
     display: none;
-    /*position :relative;
-    left : 50px;
-    top: -190px;*/
 }
+
+/*
+ * S'affiche quand l'utilisateur saisie plus d'une lettre
+ */
 
 #attention {
     display: none;
@@ -202,7 +252,11 @@ footer {
     content: '\f071';
 }
 
-#wrap_score, #wrap_inscription{
+    
+/*Le fond Popup et les fenetres */
+
+
+#fondPopup{
     display: none;
     opacity: 0.8;
     position: fixed;
@@ -215,75 +269,62 @@ footer {
     z-index: 100;
 }
 
-#fenetre_inscription {
-    width: 400px;
-    height: 400px;
+.fenetrePrincipale {
     margin: 50px auto;
     display: none;
     color: white;
     background-color: black;
     border-radius : 0px 0px 10px 10px;
     border-top: 5px solid white;
-    
     z-index: 200;
     position: absolute;
     left: 0;
     right: 0;
+    bottom: 0;
+    padding: 16px;
+}
+
+#fenetreInscription {
+    width: 400px;
+    height: 300px;
     top: 100px;
-    bottom: 0;
-    padding: 16px;
-}
-
-#wrap_connexion, #wrapListeParties {
-    display: none;
-    opacity: 0.8;
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    padding: 16px;
-    background-color: rgba(0, 0, 0, 0.4);
-    z-index: 100;
-}
-
-#fenetre_inscription {
-    height: 300px !important;
 }
 
 
-#fenetre_connexion {
+#fenetreConnexion {
     width: 300px;
     height: 220px;
-    margin: 50px auto;
-    display: none;
-    background-color: black;
-    border-radius : 0px 0px 10px 10px;
-    border-top: 5px solid white;
-    z-index: 200;
-    position: absolute;
-    left: 0;
-    right: 0;
     top: 150px;
-    bottom: 0 ;
-    padding: 16px;
 }
 
-#wrap_aide, #wrap_nous {
-    display: none;
-    opacity: 0.8;
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    padding: 16px;
-    background-color: rgba(0, 0, 0, 0.4);
-    z-index: 100;
-    color: white;
+#fenetreAide {
+    width: 900px;
+    height: 600px;  
 }
 
-#fenetre_aide, #fenetre_nous, #fenetreListeParties, #fenetre_score {
+#fenetreNous {
+    width: 900px;
+    height: 600px;
+}
+
+/* Boutons Se connecter,annuler dans les pop-up, sert à les déplacer à droite */
+#btnAnnConn{
+    position: absolute;
+    left: 60px; 
+}
+
+#btnConn{
+    position: absolute;
+    right: 45px;
+}
+
+.btnQuitterSimple {
+    position: absolute;
+    right: 10px;
+    margin-top: 10px;
+}
+
+.fenetreParticuliere {
     width: 400px;
     height: 400px;
     margin: 50px auto;
@@ -301,96 +342,50 @@ footer {
     border-top: 5px solid white;
 }
 
-.btn_Quitter {
-    padding: 2px 15px;
-    position: absolute;
-    bottom: 10px;   
-    right: 10px;
-}   
+/* L'image de bouton du fermeture */
 
-#btn_Quitter_Inscription {
-    padding: 2px 15px;
-    position: absolute;
-    bottom: 10px;   
-    left: 80px;
-}   
-
-.btn_Entree {
-  padding: 2px 15px;
-  position: absolute;
-  bottom: 10px; 
-  left: 10px;
-}
-
-#btn_Enregistrer{
-  position: absolute;
-  bottom: 10px; 
-  right: 80px;
-}
-
-    
 .close{
-    margin-left: 364px;
+    position: absolute;
+    right: 10px;
     margin-top: 4px;
     cursor: pointer;
 }
-    
+
 #close {
     margin-left: 260px;
     margin-top: 4px;
     cursor: pointer;
 }   
-    
-#select_reponse {
-    bottom: 225px;  
-    left: 187px;
-    width: 142px;
-    height: 26px;
-}   
 
 .pop_up {
     color: #FFFFFF;
+    margin: auto;
 }
+
+#wrapListePartie {
+    margin: auto; 
+}
+
 
 .titrePopup {
     text-align: center;
     margin-top: 0px;
     margin-bottom: 10px;
 }
-    
-p {
-  font-size: 25px;
-}
-
-fieldset {
-  padding: 0;
-  margin: 0;
-  margin: 15px 0;
-  border: none;
-}
 
 .popupLabel {
-  width: 80px;
-  color: #FFFFFF;
-  font-size: 13pt;
+    width: 80px;
+    color: #FFFFFF;
+    font-size: 13pt;
 }
 
-#connexionEchouee {
+/* Connexion et inscription Echouee */
+
+.echouee {
     font-size: 16px;
     color: #fa8072;
     text-align: center;
     height: 25px;
-}
-
-#inscriptionEchouee {
-    font-size: 16px;
-    color: #fa8072;
-    text-align: center;
-    height: 25px;
-}
-
-option {
-  width: 60px;
 }
 
 #infoUtilisateur {
@@ -419,15 +414,16 @@ option {
     color: red;
 }
 
-#listeParties, #listeScores, #quiSommesNous, #regles {
+/* Les listes des parties, scores, regles et etc. */
+.listes {
     color: white;
     font-size: 20px;
     overflow-y: auto;
-    height: 260px;
     border-top: 1px solid white;
     border-bottom: 1px solid white;
 }
 
+/* Les listes de tab Parties et Scores */
 #tabListeParties, #tabListeScores {
     text-align: left;
 }
@@ -435,4 +431,16 @@ option {
 #tabListeParties td, #tabListeScores td {
     text-align: left;
     padding: 5px 10px 5px 5px;
+}
+
+#quiSommesNous {
+    height: 500px;
+}
+
+#regles {
+    height: 500px;
+}
+
+#listeScores, #listeParties {
+    height: 310px;
 }

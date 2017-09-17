@@ -1,3 +1,8 @@
+/*
+ * Jeu du pendu en JavaScript
+ * Pierre Romestant, Elyan Poujol, Morgane Tuffery, Aleksandr Vassilyev
+ */
+
 "use strict";
 
 class Dictionnaire {
@@ -9,11 +14,14 @@ class Dictionnaire {
     
     /*
      * Pioche un mot aleatoire et execute le callback avec le parametre err
-	 * en premier et le mot en second parametre
+     * en premier et le mot en second parametre
      * Les mots proviennent de plusieurs fichiers aillant un niveau de difficulte
      * different
      * difficulte: niveau de difficulte du mot doit etre l'intervalle 0..2
-     * callback: fonction appellee a la fin sous la forme function(err, mot)
+     * callback:
+     *     fonction de callback ayant pour parametres:
+     *         err: true si une erreur est survenue
+     *         mot: chaine de caracteres etant le mot tire au sort
      */
     motAleatoire(difficulte, callback) {
         var fichier;
@@ -53,6 +61,7 @@ class Dictionnaire {
         }
     }
 }
+
 
 var fs = require("fs");
 module.exports = Dictionnaire;
